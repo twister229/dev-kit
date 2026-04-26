@@ -19,15 +19,18 @@ Finish like a professional. Verify, review, document what changed, capture durab
 ## When To Use
 
 - Implementation tasks are complete.
+- Work is completed or believed complete and being prepared for final handoff.
 - User asks to finish, commit, prepare PR, or review branch.
 - Before handing off to another developer.
 - Before opening a PR.
 
 ## When Not To Use
 
-- Implementation is still in progress or verification is failing.
+- Implementation is still actively in progress and the user is asking to pause or resume later: use `context-handoff`.
+- Work is paused or in progress and needs resumable context: use `context-handoff`.
 - The user asks only for a code review: use `review-work`.
 - The user asks only to verify one claim: use `verify-work`.
+- The user asks only for changelog, release notes, migration notes, or upgrade guidance: use `release-notes`.
 - The user asks to plan or shape future work rather than finish current work.
 
 ## Hard Rules
@@ -66,6 +69,7 @@ Finish like a professional. Verify, review, document what changed, capture durab
    - Lint.
    - Build.
    - Any feature-specific checks.
+   - If verification fails, report the failure and do not claim readiness.
 5. Capture durable learning.
    - Root causes.
    - Project conventions.
@@ -76,6 +80,7 @@ Finish like a professional. Verify, review, document what changed, capture durab
    - Verification evidence.
    - Risks.
    - Follow-ups.
+   - If release communication is requested, use `release-notes`.
 7. If user requested commit or PR, perform only the requested action.
 
 ## Output Template
@@ -84,6 +89,7 @@ Finish like a professional. Verify, review, document what changed, capture durab
 ## Finish Summary
 
 Changed: ...
+Status: ready | blocked | needs fixes, with reason
 Verification: ...
 Review findings: ...
 Implementation check: ...

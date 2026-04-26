@@ -19,14 +19,16 @@ Make knowledge compound. Capture what future sessions will reuse, and skip what 
 
 - User asks to document or understand code.
 - You discovered a durable project convention.
-- You fixed a non-obvious bug.
+- After a non-obvious bug is fixed and verified, capture the reusable root cause or failure pattern.
 - You found a setup gotcha.
 - A module is important enough to map for future work.
 - Finishing a feature revealed reusable decisions.
 
 ## When Not To Use
 
-- Capturing one-off task progress or a session transcript.
+- Capturing one-off task progress, resumable handoff, or a session transcript: use `context-handoff` for paused work.
+- Reviewing README, install docs, user guides, API docs, or public-facing docs: use `docs-review` unless the goal is durable internal implementation knowledge.
+- Diagnosing an active bug or failing test: use `debug-root-cause` first.
 - Storing unverified guesses, raw logs, or sensitive data.
 - The user only needs implementation, review, or verification.
 - Existing memory already covers the same knowledge.
@@ -36,8 +38,10 @@ Make knowledge compound. Capture what future sessions will reuse, and skip what 
 - Do not store secrets, credentials, customer data, private data, raw logs, or transcripts.
 - Do not store speculation.
 - Do not store one-off task progress.
+- Do not store entries like "I changed file X today" or "task 2 is done"; that is handoff/progress, not learning.
 - Search before storing to avoid duplicates.
 - Store only verified reusable knowledge.
+- If evidence is only memory, assumption, or prior conversation, do not write the entry until current repo evidence confirms it.
 - Use local Markdown files only. Do not require `npm`, `npx`, network calls, or a memory database.
 
 ## Offline Memory Locations

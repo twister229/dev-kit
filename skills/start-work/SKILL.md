@@ -27,7 +27,32 @@ Start work without guessing. Understand the user goal, classify risk and size, s
 - User asks only for an explanation, review, or brainstorming with no intent to implement.
 - A written implementation plan is already ready: use `execute-work`.
 - A bug, regression, failing test, or unexpected behavior is the core request: use `debug-root-cause`.
+- User asks to save paused progress, resume context, or hand off incomplete work: use `context-handoff`.
+- User asks to add, remove, update, audit, or diagnose dependencies: use `dependency-work`.
 - The task is a tiny obvious edit with a clear check: make the change directly and use `verify-work`.
+
+## Routing Table
+
+| User Intent | Skill |
+|---|---|
+| Build, add, implement, or create non-trivial work | `start-work` |
+| Think through an unclear idea | `shape-work` |
+| Write an implementation plan | `plan-work` |
+| Execute an existing plan | `execute-work` |
+| Debug a bug, failing test, regression, or error | `debug-root-cause` |
+| Add or change behavior safely | `tdd-work` |
+| Review a diff, PR, or implementation | `review-work` |
+| Evaluate received review comments | `review-feedback` |
+| Prove work is done, fixed, or passing | `verify-work` |
+| Simplify or refactor for maintainability | `simplify-work` |
+| Review or improve documentation | `docs-review` |
+| Store verified reusable project knowledge | `capture-learning` |
+| Save or restore paused session context | `context-handoff` |
+| Add, remove, update, audit, or diagnose dependencies | `dependency-work` |
+| Write changelog, release notes, migration notes, or upgrade guidance | `release-notes` |
+| Finish branch, final review, commit, PR, or handoff prep | `finish-work` |
+| Create or improve skills | `writing-skills` |
+| Run the lifecycle autonomously until verified or blocked | `auto-dev-loop` |
 
 ## Hard Rules
 
@@ -56,10 +81,12 @@ Start work without guessing. Understand the user goal, classify risk and size, s
 
 4. Decide the workflow.
    - Tiny: direct change plus `verify-work`.
+   - If a tiny task does not need scoping, exit this skill immediately, make the direct change, then use `verify-work`.
    - Vague product or technical direction: `shape-work` before planning.
    - Small: lightweight `plan-work` checklist, then execute inline.
    - Feature: `plan-work` with exact tasks.
    - Risky: full lifecycle docs and explicit approval before implementation.
+   - Clear behavior changes with known scope may route directly to `tdd-work`; use `start-work` when scope, risk, workflow, or decomposition must be decided first.
 
 5. For non-trivial work, prepare isolation.
    - Prefer an existing `.worktrees/` directory, then `worktrees/`.

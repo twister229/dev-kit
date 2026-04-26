@@ -15,6 +15,7 @@ Review documentation as a new user would experience it. Good docs let someone su
 - Install instruction review
 - Skill documentation review
 - API or guide review
+- Non-release documentation review or improvement, including README, install, guides, API docs, and agent-facing docs.
 - User asks to improve technical writing
 - A feature changed behavior and docs may be stale
 
@@ -23,6 +24,7 @@ Review documentation as a new user would experience it. Good docs let someone su
 - The request is a code review with docs as a small part: use `review-work`.
 - The user asks to implement product behavior: use `start-work` or `tdd-work`.
 - The user asks to capture durable code knowledge: use `capture-learning`.
+- The user asks for post-ship release communication, changelog entries, release notes, migration notes, or upgrade guidance from completed changes: use `release-notes`.
 - The user asked for edits and the docs issue is tiny: make the change and use `verify-work` for claims.
 
 ## Hard Rules
@@ -30,6 +32,7 @@ Review documentation as a new user would experience it. Good docs let someone su
 - Do not rewrite docs until the user approves, unless they explicitly asked for edits.
 - Suggest concrete replacement text, not vague advice.
 - Review for the least experienced plausible user.
+- If a suggested fix changes technical meaning, verify against source or docs before recommending it as replacement text.
 - Commands must be copy-pasteable and offline-safe when the project promises offline support.
 
 ## Review Dimensions
@@ -74,6 +77,8 @@ Issues:
 
 Suggested fixes:
 - ...
+
+Verification: commands/claims checked, not checked, or not applicable
 ```
 
 ## Evaluation Notes

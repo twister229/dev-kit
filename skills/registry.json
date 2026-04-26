@@ -59,6 +59,11 @@
       "description": "Use to document code entry points, store durable project knowledge, capture root causes, preserve conventions, or map unfamiliar modules."
     },
     {
+      "name": "context-handoff",
+      "path": "skills/context-handoff",
+      "description": "Use when saving or restoring one-off working context for a paused task, long session, context-limit handoff, or another agent taking over."
+    },
+    {
       "name": "finish-work",
       "path": "skills/finish-work",
       "description": "Use when a branch or task is ready for final review, commit, PR, or handoff."
@@ -87,6 +92,16 @@
       "name": "docs-review",
       "path": "skills/docs-review",
       "description": "Use when reviewing or improving README files, install docs, skill docs, guides, API docs, or agent-facing documentation."
+    },
+    {
+      "name": "dependency-work",
+      "path": "skills/dependency-work",
+      "description": "Use when adding, removing, updating, auditing, or diagnosing project dependencies and lockfiles."
+    },
+    {
+      "name": "release-notes",
+      "path": "skills/release-notes",
+      "description": "Use when writing changelog entries, release notes, migration notes, or upgrade guidance from completed changes."
     }
   ]
 }
