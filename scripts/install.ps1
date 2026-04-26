@@ -4,7 +4,7 @@ param(
     [switch]$Claude,
     [switch]$OpenCode,
     [switch]$Copilot,
-    [string]$SkillsDir = ".agentic-dev-system/skills",
+    [string]$SkillsDir = "",
     [switch]$Force,
     [switch]$Help
 )
@@ -20,18 +20,19 @@ Usage:
   ./scripts/install.ps1 [-TargetProject <path>] [options]
 
 Options:
-  -All              Install routing for Claude, OpenCode, and GitHub Copilot (default)
-  -Claude           Install Claude project instructions
-  -OpenCode         Install OpenCode project instructions
-  -Copilot          Install GitHub Copilot project instructions
-  -SkillsDir DIR    Project-relative skill install directory (default: .agentic-dev-system/skills)
+  -All              Install Claude, OpenCode, and GitHub Copilot targets (default)
+  -Claude           Install Claude skills to .claude/skills and CLAUDE.md
+  -OpenCode         Install OpenCode skills to .opencode/skills and AGENTS.md
+  -Copilot          Install GitHub Copilot prompts to .github/prompts and instructions
+  -SkillsDir DIR    Advanced: install all selected skill folders to one custom project-relative directory
   -Force            Replace existing installed skill files
   -Help             Show help
 
 Examples:
   ./scripts/install.ps1 -TargetProject C:\path\to\project
   ./scripts/install.ps1 -TargetProject . -Claude -OpenCode
-  ./scripts/install.ps1 -TargetProject C:\app -SkillsDir .claude/skills -Force
+  ./scripts/install.ps1 -TargetProject C:\app -Force
+  ./scripts/install.ps1 -TargetProject C:\app -SkillsDir .custom/skills -Force
 
 Offline: this script only copies local files. It does not use npm, npx, curl, or network access.
 "@
@@ -72,12 +73,12 @@ elseif ($All) {
     $Copilot = $true
 }
 
-if ([System.IO.Path]::IsPathRooted($SkillsDir)) {
+if ($SkillsDir -and [System.IO.Path]::IsPathRooted($SkillsDir)) {
     Fail "-SkillsDir must be project-relative, got: $SkillsDir"
 }
 
 $SkillParts = $SkillsDir -split '[\\/]+'
-if ($SkillParts -contains "..") {
+if ($SkillsDir -and $SkillParts -contains "..") {
     Fail "-SkillsDir must not contain '..', got: $SkillsDir"
 }
 
@@ -86,7 +87,6 @@ if (-not (Test-Path -LiteralPath $TargetProject -PathType Container)) {
 }
 
 $TargetProject = (Resolve-Path $TargetProject).Path
-$DestSkillsDir = Join-Path $TargetProject $SkillsDir
 
 $MarkerBegin = "<!-- agentic-dev-system:begin -->"
 $MarkerEnd = "<!-- agentic-dev-system:end -->"
@@ -95,7 +95,11 @@ $RoutingBlock = @"
 $MarkerBegin
 ## Agentic Dev System Skills
 
-Project-level skills are installed in ``$SkillsDir``.
+Provider-native files are installed for the selected tools:
+
+- Claude: ``.claude/skills``
+- OpenCode: ``.opencode/skills``
+- GitHub Copilot: ``.github/prompts``
 
 When the user's request matches one of these workflows, use the matching skill before answering directly:
 
@@ -155,7 +159,7 @@ function Set-RoutingBlock($File, $Title) {
     }
 }
 
-function Install-Skills {
+function Install-Skills($DestSkillsDir) {
     if (-not (Test-Path -LiteralPath $DestSkillsDir -PathType Container)) {
         New-Item -ItemType Directory -Path $DestSkillsDir | Out-Null
     }
@@ -184,17 +188,61 @@ function Install-Skills {
     Write-Info "Installed skills: $DestSkillsDir"
 }
 
-Install-Skills
+function Install-CustomSkills {
+    $DestSkillsDir = Join-Path $TargetProject $SkillsDir
+    Install-Skills $DestSkillsDir
+}
+
+function Install-CopilotPrompts {
+    $PromptsDir = Join-Path $TargetProject ".github/prompts"
+    if (-not (Test-Path -LiteralPath $PromptsDir -PathType Container)) {
+        New-Item -ItemType Directory -Path $PromptsDir | Out-Null
+    }
+
+    Get-ChildItem -LiteralPath $SourceSkillsDir -Directory | ForEach-Object {
+        $SkillName = $_.Name
+        $PromptFile = Join-Path $PromptsDir "$SkillName.prompt.md"
+
+        if ((Test-Path -LiteralPath $PromptFile) -and (-not $Force)) {
+            Fail "prompt already exists: $PromptFile. Re-run with -Force to replace installed prompts."
+        }
+
+        $SkillContent = Get-Content -LiteralPath (Join-Path $_.FullName "SKILL.md") -Raw
+        $PromptContent = "# $SkillName`n`nUse this workflow when the user request matches this prompt. Source skill: ``$SkillName``.`n`n$SkillContent"
+        Set-Content -LiteralPath $PromptFile -Value $PromptContent -NoNewline
+    }
+
+    if (Test-Path -LiteralPath $SourceRegistryFile -PathType Leaf) {
+        $RegistryDest = Join-Path $TargetProject ".github/dev-kit-registry.json"
+        Copy-Item -LiteralPath $SourceRegistryFile -Destination $RegistryDest
+        Write-Info "Installed registry: $RegistryDest"
+    }
+
+    Write-Info "Installed Copilot prompts: $PromptsDir"
+}
+
+if ($SkillsDir) {
+    Install-CustomSkills
+}
 
 if ($Claude) {
+    if (-not $SkillsDir) {
+        Install-Skills (Join-Path $TargetProject ".claude/skills")
+    }
     Set-RoutingBlock (Join-Path $TargetProject "CLAUDE.md") "Claude instructions"
 }
 
 if ($OpenCode) {
+    if (-not $SkillsDir) {
+        Install-Skills (Join-Path $TargetProject ".opencode/skills")
+    }
     Set-RoutingBlock (Join-Path $TargetProject "AGENTS.md") "OpenCode instructions"
 }
 
 if ($Copilot) {
+    if (-not $SkillsDir) {
+        Install-CopilotPrompts
+    }
     Set-RoutingBlock (Join-Path $TargetProject ".github/copilot-instructions.md") "GitHub Copilot instructions"
 }
 

@@ -39,11 +39,15 @@ try {
     Assert-File (Join-Path $Project "CLAUDE.md")
     Assert-File (Join-Path $Project "AGENTS.md")
     Assert-File (Join-Path $Project ".github/copilot-instructions.md")
-    Assert-File (Join-Path $Project ".agentic-dev-system/skills/start-work/SKILL.md")
-    Assert-File (Join-Path $Project ".agentic-dev-system/skills/tdd-work/SKILL.md")
-    Assert-File (Join-Path $Project ".agentic-dev-system/skills/review-feedback/SKILL.md")
-    Assert-File (Join-Path $Project ".agentic-dev-system/skills/docs-review/SKILL.md")
-    Assert-File (Join-Path $Project ".agentic-dev-system/registry.json")
+    Assert-File (Join-Path $Project ".claude/skills/start-work/SKILL.md")
+    Assert-File (Join-Path $Project ".claude/skills/tdd-work/SKILL.md")
+    Assert-File (Join-Path $Project ".claude/registry.json")
+    Assert-File (Join-Path $Project ".opencode/skills/review-feedback/SKILL.md")
+    Assert-File (Join-Path $Project ".opencode/skills/docs-review/SKILL.md")
+    Assert-File (Join-Path $Project ".opencode/registry.json")
+    Assert-File (Join-Path $Project ".github/prompts/start-work.prompt.md")
+    Assert-File (Join-Path $Project ".github/prompts/docs-review.prompt.md")
+    Assert-File (Join-Path $Project ".github/dev-kit-registry.json")
     Assert-MarkerOnce (Join-Path $Project "CLAUDE.md")
     Assert-MarkerOnce (Join-Path $Project "AGENTS.md")
     Assert-MarkerOnce (Join-Path $Project ".github/copilot-instructions.md")
@@ -59,7 +63,18 @@ try {
     Assert-File (Join-Path $Selective "CLAUDE.md")
     Assert-NotFile (Join-Path $Selective "AGENTS.md")
     Assert-NotFile (Join-Path $Selective ".github/copilot-instructions.md")
-    Assert-File (Join-Path $Selective ".agentic-dev-system/registry.json")
+    Assert-File (Join-Path $Selective ".claude/skills/start-work/SKILL.md")
+    Assert-File (Join-Path $Selective ".claude/registry.json")
+    Assert-NotFile (Join-Path $Selective ".opencode/registry.json")
+    Assert-NotFile (Join-Path $Selective ".github/dev-kit-registry.json")
+
+    $Custom = Join-Path $Tmp "custom"
+    New-Item -ItemType Directory -Path $Custom | Out-Null
+    & (Join-Path $Root "scripts/install.ps1") -TargetProject $Custom -Claude -SkillsDir ".custom/skills"
+    Assert-File (Join-Path $Custom "CLAUDE.md")
+    Assert-File (Join-Path $Custom ".custom/skills/start-work/SKILL.md")
+    Assert-File (Join-Path $Custom ".custom/registry.json")
+    Assert-NotFile (Join-Path $Custom ".claude/skills/start-work/SKILL.md")
 
     $BadRel = Join-Path $Tmp "bad-rel"
     New-Item -ItemType Directory -Path $BadRel | Out-Null

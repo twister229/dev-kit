@@ -97,11 +97,17 @@ On Windows PowerShell:
 ./scripts/install.ps1 -TargetProject C:\path\to\project
 ```
 
-By default this copies skills into `.agentic-dev-system/skills`, copies `skills/registry.json` to `.agentic-dev-system/registry.json`, and installs routing instructions for:
+By default this installs provider-native files:
 
-- Claude: `CLAUDE.md`
-- OpenCode: `AGENTS.md`
-- GitHub Copilot: `.github/copilot-instructions.md`
+- Claude: `.claude/skills/` plus `CLAUDE.md`
+- OpenCode: `.opencode/skills/` plus `AGENTS.md`
+- GitHub Copilot: `.github/prompts/*.prompt.md` plus `.github/copilot-instructions.md`
+
+Registry files are copied next to each provider target:
+
+- Claude: `.claude/registry.json`
+- OpenCode: `.opencode/registry.json`
+- GitHub Copilot: `.github/dev-kit-registry.json`
 
 Install only selected instruction targets:
 
@@ -113,7 +119,7 @@ Install only selected instruction targets:
 ./scripts/install.ps1 -TargetProject C:\path\to\project -Claude -OpenCode
 ```
 
-Install to a custom project-relative skills directory:
+Advanced: install selected skill folders to a custom project-relative skills directory instead of provider-native skill folders:
 
 ```bash
 ./scripts/install.sh /path/to/project --skills-dir .claude/skills

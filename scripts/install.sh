@@ -9,18 +9,19 @@ Usage:
   ./scripts/install.sh [target-project] [options]
 
 Options:
-  --all              Install routing for Claude, OpenCode, and GitHub Copilot (default)
-  --claude           Install Claude project instructions
-  --opencode         Install OpenCode project instructions
-  --copilot          Install GitHub Copilot project instructions
-  --skills-dir DIR   Project-relative skill install directory (default: .agentic-dev-system/skills)
+  --all              Install Claude, OpenCode, and GitHub Copilot targets (default)
+  --claude           Install Claude skills to .claude/skills and CLAUDE.md
+  --opencode         Install OpenCode skills to .opencode/skills and AGENTS.md
+  --copilot          Install GitHub Copilot prompts to .github/prompts and instructions
+  --skills-dir DIR   Advanced: install all selected skill folders to one custom project-relative directory
   --force            Replace existing installed skill files
   -h, --help         Show help
 
 Examples:
   ./scripts/install.sh /path/to/project
   ./scripts/install.sh . --claude --opencode
-  ./scripts/install.sh ~/app --skills-dir .claude/skills --force
+  ./scripts/install.sh ~/app --force
+  ./scripts/install.sh ~/app --skills-dir .custom/skills --force
 
 Offline: this script only copies local files. It does not use npm, npx, curl, or network access.
 USAGE
@@ -47,7 +48,7 @@ INSTALL_CLAUDE=0
 INSTALL_OPENCODE=0
 INSTALL_COPILOT=0
 EXPLICIT_TARGETS=0
-SKILLS_DIR_REL=".agentic-dev-system/skills"
+SKILLS_DIR_REL=""
 FORCE=0
 
 while [ "$#" -gt 0 ]; do
@@ -111,14 +112,17 @@ case "$SKILLS_DIR_REL" in
   *..*) die "--skills-dir must not contain '..', got: $SKILLS_DIR_REL" ;;
 esac
 
-DEST_SKILLS_DIR="$TARGET_PROJECT/$SKILLS_DIR_REL"
 MARKER_BEGIN="<!-- agentic-dev-system:begin -->"
 MARKER_END="<!-- agentic-dev-system:end -->"
 
 ROUTING_BLOCK="${MARKER_BEGIN}
 ## Agentic Dev System Skills
 
-Project-level skills are installed in \`${SKILLS_DIR_REL}\`.
+Provider-native files are installed for the selected tools:
+
+- Claude: \`.claude/skills\`
+- OpenCode: \`.opencode/skills\`
+- GitHub Copilot: \`.github/prompts\`
 
 When the user's request matches one of these workflows, use the matching skill before answering directly:
 
@@ -181,6 +185,36 @@ append_or_replace_block() {
 }
 
 install_skills() {
+  local dest_skills_dir="$1"
+  local registry_dest_dir
+  registry_dest_dir="$(dirname "$dest_skills_dir")"
+
+  mkdir -p "$dest_skills_dir"
+
+  for skill_dir in "$SOURCE_SKILLS_DIR"/*; do
+    [ -d "$skill_dir" ] || continue
+    skill_name="$(basename "$skill_dir")"
+    dest="$dest_skills_dir/$skill_name"
+
+    if [ -e "$dest" ] && [ "$FORCE" -ne 1 ]; then
+      die "skill already exists: $dest. Re-run with --force to replace installed skills."
+    fi
+
+    rm -rf "$dest"
+    cp -R "$skill_dir" "$dest"
+  done
+
+  if [ -f "$SOURCE_REGISTRY_FILE" ]; then
+    registry_dest="$registry_dest_dir/registry.json"
+    cp "$SOURCE_REGISTRY_FILE" "$registry_dest"
+    info "Installed registry: $registry_dest"
+  fi
+
+  info "Installed skills: $dest_skills_dir"
+}
+
+install_custom_skills() {
+  DEST_SKILLS_DIR="$TARGET_PROJECT/$SKILLS_DIR_REL"
   mkdir -p "$DEST_SKILLS_DIR"
 
   for skill_dir in "$SOURCE_SKILLS_DIR"/*; do
@@ -205,19 +239,58 @@ install_skills() {
   info "Installed skills: $DEST_SKILLS_DIR"
 }
 
+install_copilot_prompts() {
+  local prompts_dir="$TARGET_PROJECT/.github/prompts"
+  mkdir -p "$prompts_dir"
+
+  for skill_dir in "$SOURCE_SKILLS_DIR"/*; do
+    [ -d "$skill_dir" ] || continue
+    skill_name="$(basename "$skill_dir")"
+    prompt_file="$prompts_dir/$skill_name.prompt.md"
+
+    if [ -e "$prompt_file" ] && [ "$FORCE" -ne 1 ]; then
+      die "prompt already exists: $prompt_file. Re-run with --force to replace installed prompts."
+    fi
+
+    {
+      printf '# %s\n\n' "$skill_name"
+      printf 'Use this workflow when the user request matches this prompt. Source skill: `%s`.\n\n' "$skill_name"
+      cat "$skill_dir/SKILL.md"
+    } > "$prompt_file"
+  done
+
+  if [ -f "$SOURCE_REGISTRY_FILE" ]; then
+    cp "$SOURCE_REGISTRY_FILE" "$TARGET_PROJECT/.github/dev-kit-registry.json"
+    info "Installed registry: $TARGET_PROJECT/.github/dev-kit-registry.json"
+  fi
+
+  info "Installed Copilot prompts: $prompts_dir"
+}
+
 install_claude() {
+  if [ -z "$SKILLS_DIR_REL" ]; then
+    install_skills "$TARGET_PROJECT/.claude/skills"
+  fi
   append_or_replace_block "$TARGET_PROJECT/CLAUDE.md" "Claude instructions"
 }
 
 install_opencode() {
+  if [ -z "$SKILLS_DIR_REL" ]; then
+    install_skills "$TARGET_PROJECT/.opencode/skills"
+  fi
   append_or_replace_block "$TARGET_PROJECT/AGENTS.md" "OpenCode instructions"
 }
 
 install_copilot() {
+  if [ -z "$SKILLS_DIR_REL" ]; then
+    install_copilot_prompts
+  fi
   append_or_replace_block "$TARGET_PROJECT/.github/copilot-instructions.md" "GitHub Copilot instructions"
 }
 
-install_skills
+if [ -n "$SKILLS_DIR_REL" ]; then
+  install_custom_skills
+fi
 
 if [ "$INSTALL_CLAUDE" -eq 1 ]; then
   install_claude
