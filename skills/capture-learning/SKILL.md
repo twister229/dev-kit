@@ -31,6 +31,18 @@ Make knowledge compound. Capture what future sessions will reuse, and skip what 
 - Do not store one-off task progress.
 - Search before storing to avoid duplicates.
 - Store only verified reusable knowledge.
+- Use local Markdown files only. Do not require `npm`, `npx`, network calls, or a memory database.
+
+## Offline Memory Locations
+
+Prefer project-local memory under `docs/ai/memory/`:
+
+- `docs/ai/memory/decisions.md`
+- `docs/ai/memory/failure-patterns.md`
+- `docs/ai/memory/project-conventions.md`
+- `docs/ai/memory/setup-gotchas.md`
+
+If the project does not use `docs/ai/`, use `.agentic-dev-system/memory/`.
 
 ## Memory Quality Gate
 
@@ -44,18 +56,22 @@ All must be true:
 
 ## Workflow: Store Memory
 
-1. Search existing memory for the same knowledge.
+1. Search existing local memory files for the same knowledge.
 2. Choose narrowest useful scope.
    - Repo-specific.
    - Project-specific.
    - Global only if truly general.
-3. Store with this shape:
+3. Create the memory directory if needed.
+4. Append an entry with this shape:
 
-```text
-Context: Where this applies.
-Guidance: What to do.
-Evidence: File, command, test, or user instruction.
-Exceptions: When not to apply it.
+```markdown
+## YYYY-MM-DD - <Title>
+
+Scope: ...
+Type: decision | failure-pattern | convention | setup-gotcha
+Evidence: ...
+Guidance: ...
+Exceptions: ...
 ```
 
 ## Workflow: Capture Code Knowledge
@@ -96,3 +112,4 @@ Future use: ...
 | "Save everything" | Noise makes memory useless | Store only reusable knowledge |
 | "The code is self-documenting" | Future agents lack context | Capture why and flow |
 | "This error might matter" | Raw errors are not learning | Store diagnosis after verification |
+| "Use the memory CLI" | V2 must work offline | Write local Markdown memory |

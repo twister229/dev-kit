@@ -21,6 +21,8 @@ Examples:
   ./scripts/install.sh /path/to/project
   ./scripts/install.sh . --claude --opencode
   ./scripts/install.sh ~/app --skills-dir .claude/skills --force
+
+Offline: this script only copies local files. It does not use npm, npx, curl, or network access.
 USAGE
 }
 
@@ -36,6 +38,7 @@ info() {
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 SOURCE_SKILLS_DIR="$REPO_ROOT/skills"
+SOURCE_REGISTRY_FILE="$SOURCE_SKILLS_DIR/registry.json"
 
 [ -d "$SOURCE_SKILLS_DIR" ] || die "skills directory not found: $SOURCE_SKILLS_DIR"
 
@@ -122,10 +125,13 @@ When the user's request matches one of these workflows, use the matching skill b
 - New feature, vague product request, multi-step build -> \`start-work\`
 - Requirements or design already exist -> \`plan-work\`
 - Written implementation plan ready -> \`execute-work\`
+- New behavior, bug fix, or behavior refactor -> \`tdd-work\`
 - Bug, failing test, regression, production issue -> \`debug-root-cause\`
 - Any done/fixed/passing/ready claim -> \`verify-work\`
 - Refactor, simplify, reduce complexity -> \`simplify-work\`
 - Understand, document, or remember code/project knowledge -> \`capture-learning\`
+- Received code review feedback -> \`review-feedback\`
+- Review README, install docs, guides, or skill docs -> \`docs-review\`
 - Branch ready for final review, commit, or PR -> \`finish-work\`
 - Create or revise skills -> \`writing-skills\`
 
@@ -137,8 +143,9 @@ Core rules:
 
 - No fixes without root cause for bugs.
 - No completion claims without fresh command output.
+- No production code for behavior changes without a failing test first unless explicitly approved.
 - Spec compliance review comes before code quality review.
-- Store only reusable, verified knowledge. Never store secrets, transcripts, or one-off progress.
+- Store only reusable, verified knowledge in local Markdown. Never store secrets, transcripts, or one-off progress.
 - Some duplication beats the wrong abstraction.
 ${MARKER_END}"
 
@@ -152,11 +159,14 @@ append_or_replace_block() {
   ensure_parent_dir "$file"
 
   if [ -f "$file" ] && grep -q "$MARKER_BEGIN" "$file"; then
-    awk -v begin="$MARKER_BEGIN" -v end="$MARKER_END" -v block="$ROUTING_BLOCK" '
-      $0 == begin { print block; inside=1; next }
+    block_file="$(mktemp)"
+    printf '%s\n' "$ROUTING_BLOCK" > "$block_file"
+    awk -v begin="$MARKER_BEGIN" -v end="$MARKER_END" -v block_file="$block_file" '
+      $0 == begin { while ((getline line < block_file) > 0) print line; close(block_file); inside=1; next }
       $0 == end { inside=0; next }
       !inside { print }
     ' "$file" > "$file.tmp"
+    rm -f "$block_file"
     mv "$file.tmp" "$file"
     info "Updated $title: $file"
   else
@@ -185,6 +195,12 @@ install_skills() {
     rm -rf "$dest"
     cp -R "$skill_dir" "$dest"
   done
+
+  if [ -f "$SOURCE_REGISTRY_FILE" ]; then
+    registry_dest="$(dirname "$DEST_SKILLS_DIR")/registry.json"
+    cp "$SOURCE_REGISTRY_FILE" "$registry_dest"
+    info "Installed registry: $registry_dest"
+  fi
 
   info "Installed skills: $DEST_SKILLS_DIR"
 }

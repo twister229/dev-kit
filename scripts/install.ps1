@@ -32,6 +32,8 @@ Examples:
   ./scripts/install.ps1 -TargetProject C:\path\to\project
   ./scripts/install.ps1 -TargetProject . -Claude -OpenCode
   ./scripts/install.ps1 -TargetProject C:\app -SkillsDir .claude/skills -Force
+
+Offline: this script only copies local files. It does not use npm, npx, curl, or network access.
 "@
 }
 
@@ -52,6 +54,7 @@ if ($Help) {
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $RepoRoot = Resolve-Path (Join-Path $ScriptDir "..")
 $SourceSkillsDir = Join-Path $RepoRoot "skills"
+$SourceRegistryFile = Join-Path $SourceSkillsDir "registry.json"
 
 if (-not (Test-Path -LiteralPath $SourceSkillsDir -PathType Container)) {
     Fail "skills directory not found: $SourceSkillsDir"
@@ -99,10 +102,13 @@ When the user's request matches one of these workflows, use the matching skill b
 - New feature, vague product request, multi-step build -> ``start-work``
 - Requirements or design already exist -> ``plan-work``
 - Written implementation plan ready -> ``execute-work``
+- New behavior, bug fix, or behavior refactor -> ``tdd-work``
 - Bug, failing test, regression, production issue -> ``debug-root-cause``
 - Any done/fixed/passing/ready claim -> ``verify-work``
 - Refactor, simplify, reduce complexity -> ``simplify-work``
 - Understand, document, or remember code/project knowledge -> ``capture-learning``
+- Received code review feedback -> ``review-feedback``
+- Review README, install docs, guides, or skill docs -> ``docs-review``
 - Branch ready for final review, commit, or PR -> ``finish-work``
 - Create or revise skills -> ``writing-skills``
 
@@ -114,8 +120,9 @@ Core rules:
 
 - No fixes without root cause for bugs.
 - No completion claims without fresh command output.
+- No production code for behavior changes without a failing test first unless explicitly approved.
 - Spec compliance review comes before code quality review.
-- Store only reusable, verified knowledge. Never store secrets, transcripts, or one-off progress.
+- Store only reusable, verified knowledge in local Markdown. Never store secrets, transcripts, or one-off progress.
 - Some duplication beats the wrong abstraction.
 $MarkerEnd
 "@
@@ -166,6 +173,12 @@ function Install-Skills {
         }
 
         Copy-Item -LiteralPath $_.FullName -Destination $Dest -Recurse
+    }
+
+    if (Test-Path -LiteralPath $SourceRegistryFile -PathType Leaf) {
+        $RegistryDest = Join-Path (Split-Path -Parent $DestSkillsDir) "registry.json"
+        Copy-Item -LiteralPath $SourceRegistryFile -Destination $RegistryDest
+        Write-Info "Installed registry: $RegistryDest"
     }
 
     Write-Info "Installed skills: $DestSkillsDir"

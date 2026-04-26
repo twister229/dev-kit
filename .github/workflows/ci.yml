@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  unix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check shell syntax
+        run: bash -n scripts/install.sh
+      - name: Test skill structure
+        run: bash tests/test-skill-structure.sh
+      - name: Test offline Bash installer
+        run: bash tests/test-install.sh
+
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Show PowerShell installer help
+        shell: pwsh
+        run: ./scripts/install.ps1 -Help
+      - name: Test offline PowerShell installer
+        shell: pwsh
+        run: ./tests/test-install.ps1

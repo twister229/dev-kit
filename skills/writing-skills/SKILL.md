@@ -31,6 +31,7 @@ Retained from `obra/superpowers` and adapted for this combined skillset.
 - A skill must include output expectations.
 - A skill must be short enough that an agent will follow it.
 - Do not write generic advice. Write executable behavior.
+- Keep dev-kit skills offline-safe. Do not require package managers, network calls, or external CLIs unless the skill explicitly targets that tool.
 
 ## Skill Structure
 
@@ -63,6 +64,8 @@ description: <when to use this skill>
 
 The description is the routing surface. Make it concrete.
 
+Also write negative triggers when confusion is likely. State when the skill must not run.
+
 Good:
 
 ```yaml
@@ -84,6 +87,25 @@ description: Helps with debugging.
 - Include escalation conditions.
 - Include verification requirements.
 
+## Skill Evaluation
+
+Test each skill before treating it as ready:
+
+- Trigger test: provide a prompt that should invoke the skill.
+- Negative trigger test: provide a similar prompt that should not invoke the skill.
+- Workflow test: verify a fresh agent can follow the steps without hidden context.
+- Failure-mode test: verify red flags stop common bad behavior.
+- Output test: verify the final response shape is useful.
+
+Score each dimension 1-5:
+
+- Trigger specificity.
+- Behavioral clarity.
+- Failure-mode coverage.
+- Verification gates.
+- Output usefulness.
+- Length discipline.
+
 ## Red Flag Table
 
 Every skill should include a red flag table:
@@ -104,6 +126,8 @@ Every skill should include a red flag table:
 - [ ] Verification or evidence requirements are present when useful.
 - [ ] Skill is not a generic essay.
 - [ ] Skill composes with `verify-work` when completion claims are involved.
+- [ ] Positive and negative trigger tests are documented.
+- [ ] Offline assumptions are explicit.
 
 ## Red Flags
 

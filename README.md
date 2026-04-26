@@ -1,6 +1,6 @@
 # Agentic Dev System Skills
 
-First-version combined skillset based on `obra/superpowers` and `codeaholicguy/ai-devkit`.
+V2 combined skillset based on `obra/superpowers` and `codeaholicguy/ai-devkit`.
 
 The point is not to collect every possible workflow. The point is to make an agent behave like a careful developer: scope the work, plan only when useful, execute with clean context, verify with fresh evidence, and store lessons that will save time later.
 
@@ -17,6 +17,9 @@ The point is not to collect every possible workflow. The point is to make an age
 | `capture-learning` | Document code, store reusable knowledge, preserve decisions | AI DevKit memory/capture-knowledge + branch finish learnings |
 | `finish-work` | Branch is ready for final review, commit, or PR | Superpowers finish branch + code review workflows |
 | `writing-skills` | Creating or improving skills | Superpowers writing-skills retained as a first-class skill |
+| `tdd-work` | New behavior, bug fixes, or behavior refactors | Superpowers TDD + AI DevKit TDD |
+| `review-feedback` | Receiving PR comments, outside review, or user critique | Superpowers receiving-code-review |
+| `docs-review` | Reviewing README, install docs, guides, or skill docs | AI DevKit technical-writer |
 
 ## Routing
 
@@ -28,10 +31,13 @@ Add this to an agent instruction file such as `AGENTS.md`:
 - New feature, vague product request, multi-step build -> `start-work`
 - Requirements or design already exist -> `plan-work`
 - Written implementation plan ready -> `execute-work`
+- New behavior, bug fix, or behavior refactor -> `tdd-work`
 - Bug, failing test, regression, production issue -> `debug-root-cause`
 - Any done/fixed/passing/ready claim -> `verify-work`
 - Refactor, simplify, reduce complexity -> `simplify-work`
 - Understand, document, or remember code/project knowledge -> `capture-learning`
+- Received code review feedback -> `review-feedback`
+- Review README, install docs, guides, or skill docs -> `docs-review`
 - Branch ready for final review, commit, or PR -> `finish-work`
 - Create or revise skills -> `writing-skills`
 ```
@@ -56,6 +62,12 @@ For tiny low-risk tasks, do not create lifecycle docs. Make the change, run `ver
 - Store only reusable, verified knowledge. Do not store transcripts, secrets, or one-off progress.
 - Some duplication beats the wrong abstraction.
 
+## Offline Guarantee
+
+Installers do not use `npm`, `npx`, `curl`, package managers, or network access. They copy files from this repository into the target project and update local instruction files.
+
+Project memory is plain Markdown under `docs/ai/memory/` or `.agentic-dev-system/memory/`. No database or external CLI is required.
+
 ## Install
 
 Install the skills into another project:
@@ -70,7 +82,7 @@ On Windows PowerShell:
 ./scripts/install.ps1 -TargetProject C:\path\to\project
 ```
 
-By default this copies skills into `.agentic-dev-system/skills` inside the target project and installs routing instructions for:
+By default this copies skills into `.agentic-dev-system/skills`, copies `skills/registry.json` to `.agentic-dev-system/registry.json`, and installs routing instructions for:
 
 - Claude: `CLAUDE.md`
 - OpenCode: `AGENTS.md`

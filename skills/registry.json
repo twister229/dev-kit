@@ -1,0 +1,67 @@
+{
+  "name": "agentic-dev-system",
+  "version": 2,
+  "offline": true,
+  "skills": [
+    {
+      "name": "start-work",
+      "path": "skills/start-work",
+      "description": "Use when starting a new feature, unclear request, or multi-step task."
+    },
+    {
+      "name": "plan-work",
+      "path": "skills/plan-work",
+      "description": "Use when requirements exist and a multi-step implementation needs sequencing."
+    },
+    {
+      "name": "execute-work",
+      "path": "skills/execute-work",
+      "description": "Use when a written implementation plan is ready."
+    },
+    {
+      "name": "debug-root-cause",
+      "path": "skills/debug-root-cause",
+      "description": "Use for bugs, regressions, failing tests, build failures, production issues, or unexpected behavior."
+    },
+    {
+      "name": "verify-work",
+      "path": "skills/verify-work",
+      "description": "Use before claiming work is done, fixed, passing, ready, reviewed, deployed, or complete."
+    },
+    {
+      "name": "simplify-work",
+      "path": "skills/simplify-work",
+      "description": "Use to simplify implementation, reduce complexity, refactor for readability, clean technical debt, or make code easier to maintain."
+    },
+    {
+      "name": "capture-learning",
+      "path": "skills/capture-learning",
+      "description": "Use to document code entry points, store durable project knowledge, capture root causes, preserve conventions, or map unfamiliar modules."
+    },
+    {
+      "name": "finish-work",
+      "path": "skills/finish-work",
+      "description": "Use when a branch or task is ready for final review, commit, PR, or handoff."
+    },
+    {
+      "name": "writing-skills",
+      "path": "skills/writing-skills",
+      "description": "Use when creating, editing, reviewing, or improving skills."
+    },
+    {
+      "name": "tdd-work",
+      "path": "skills/tdd-work",
+      "description": "Use when implementing new behavior, fixing bugs, or refactoring behavior."
+    },
+    {
+      "name": "review-feedback",
+      "path": "skills/review-feedback",
+      "description": "Use when receiving code review feedback, PR comments, outside model suggestions, or user critique."
+    },
+    {
+      "name": "docs-review",
+      "path": "skills/docs-review",
+      "description": "Use when reviewing or improving README files, install docs, skill docs, guides, API docs, or agent-facing documentation."
+    }
+  ]
+}

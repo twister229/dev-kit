@@ -30,6 +30,7 @@ Finish like a professional. Verify, review, document what changed, capture durab
 - Do not create a PR unless the user explicitly asked for a PR.
 - Do not claim readiness without `verify-work` evidence.
 - Do not ignore unrelated dirty worktree changes. Identify and avoid touching them.
+- If unresolved review feedback exists, use `review-feedback` before finishing.
 
 ## Workflow
 
@@ -45,22 +46,29 @@ Finish like a professional. Verify, review, document what changed, capture durab
    - Test coverage.
    - Security or data risks.
    - Docs impact.
-3. Run final verification.
+3. Run the check-implementation gate.
+   - Compare the diff against the plan.
+   - Compare implementation against design docs if present.
+   - Check incomplete plan tasks.
+   - Check scope expansion.
+   - Check docs impact.
+   - Check tests map to acceptance criteria.
+4. Run final verification.
    - Tests.
    - Lint.
    - Build.
    - Any feature-specific checks.
-4. Capture durable learning.
+5. Capture durable learning.
    - Root causes.
    - Project conventions.
    - Setup gotchas.
    - Non-obvious architecture constraints.
-5. Prepare handoff.
+6. Prepare handoff.
    - Summary.
    - Verification evidence.
    - Risks.
    - Follow-ups.
-6. If user requested commit or PR, perform only the requested action.
+7. If user requested commit or PR, perform only the requested action.
 
 ## Final Summary Template
 
@@ -70,6 +78,7 @@ Finish like a professional. Verify, review, document what changed, capture durab
 Changed: ...
 Verification: ...
 Review findings: ...
+Implementation check: ...
 Risks: ...
 Learning captured: ...
 Next action: ...

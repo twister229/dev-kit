@@ -28,6 +28,7 @@ Start work without guessing. Understand the user goal, classify risk and size, s
 - Do not create heavy lifecycle docs for tiny tasks.
 - Do not ask questions already answered by repo docs, memory, or code.
 - If a worktree is available and the change is non-trivial, prefer an isolated worktree or branch.
+- Do not rely on `npm`, `npx`, network fetches, or external CLIs for dev-kit behavior. This kit must remain offline-installable.
 
 ## Workflow
 
@@ -38,6 +39,7 @@ Start work without guessing. Understand the user goal, classify risk and size, s
    - Risky: auth, payments, data loss, security, migrations, production systems.
 
 2. Search memory before asking.
+   - Search local memory files if present: `docs/ai/memory/*.md` and `.agentic-dev-system/memory/*.md`.
    - Search by feature name, subsystem, error text, framework, and task intent.
    - Use memory only as context. Fresh repo evidence and user instructions win.
 
@@ -51,7 +53,19 @@ Start work without guessing. Understand the user goal, classify risk and size, s
    - Feature: `plan-work` with exact tasks.
    - Risky: full lifecycle docs and explicit approval before implementation.
 
-5. Produce the start brief.
+5. For non-trivial work, prepare isolation.
+   - Prefer an existing `.worktrees/` directory, then `worktrees/`.
+   - If project instructions name a worktree location, follow that.
+   - If using a project-local worktree directory, verify it is ignored with `git check-ignore`.
+   - If it is not ignored, ask before modifying `.gitignore`.
+   - If no worktree is used, state why.
+
+6. Establish a clean baseline.
+   - Identify the project’s existing verification commands from docs or config.
+   - Run the smallest useful baseline check before implementation when feasible.
+   - If baseline fails, stop and ask whether to investigate or proceed with known failures.
+
+7. Produce the start brief.
    - Goal.
    - User-visible outcome.
    - Scope boundaries.
@@ -69,6 +83,8 @@ Scope: ...
 Risk level: Tiny | Small | Feature | Risky
 Evidence checked: ...
 Memory applied: ...
+Isolation: worktree | branch | current workspace, reason ...
+Baseline: command/result or not run because ...
 Recommended workflow: ...
 Next skill: `plan-work` | `debug-root-cause` | `verify-work` | direct execution
 ```

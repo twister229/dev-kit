@@ -31,6 +31,14 @@ Turn a plan into working code without context pollution. Each non-trivial task g
 - Do not run code quality review before spec compliance review passes.
 - Do not move to the next task while review issues remain open.
 - Verify actual diff and commands. Agent success reports are not evidence.
+- Use `tdd-work` for behavior changes unless the user explicitly approves an exception.
+- Do not use `npm`, `npx`, or network tools for this dev-kit workflow. Use project-local commands only.
+
+## Execution Modes
+
+Sequential plan execution is the default. Use it when tasks touch shared files, depend on earlier tasks, or require one design thread.
+
+Parallel independent-domain dispatch is allowed only when tasks are independent by file, subsystem, test file, or failure domain. Never parallelize agents that may edit the same files or shared state.
 
 ## Workflow
 
@@ -38,16 +46,26 @@ Turn a plan into working code without context pollution. Each non-trivial task g
 2. Extract tasks into a local checklist.
 3. For each task:
    - Provide the implementer with only the task, relevant plan context, file constraints, and verification command.
-   - Implementer writes tests first when applicable.
+   - Implementer uses `tdd-work` for behavior changes.
    - Implementer runs task-level checks.
    - Spec reviewer checks plan compliance.
    - If spec review fails, return to implementer with exact gaps.
    - Code quality reviewer checks maintainability, simplicity, edge cases, and consistency.
    - If quality review fails, return to implementer with exact fixes.
    - Run `verify-work` evidence gate.
+   - Update the plan with completion status, verification command/result, deviations, and concerns.
    - Mark task complete only after evidence exists.
 4. After all tasks, run final integration verification.
 5. Hand off to `finish-work`.
+
+## Parallel Dispatch Rules
+
+- Group work by independent domain.
+- Give each agent one clear scope, exact constraints, and expected output.
+- Include relevant errors, test names, and file paths in the prompt.
+- Require each agent to report root cause, files changed, tests run, and concerns.
+- After agents return, inspect diffs for conflicts before running integration checks.
+- If two agents touched the same file unexpectedly, stop and reconcile before continuing.
 
 ## Agent Orchestration Rules
 
@@ -73,3 +91,4 @@ Implementers and reviewers must report one of:
 | "The agent says it passed" | Agent claims are not proof | Inspect diff and run commands |
 | "Spec is close enough" | Wrong feature is still wrong | Fix spec gaps first |
 | "Parallel is faster" | File conflicts waste more time | Parallelize only independent scopes |
+| "Plan updates can wait" | Stale plans break handoff | Update after each task |
