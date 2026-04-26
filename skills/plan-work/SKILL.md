@@ -19,6 +19,7 @@ Create an implementation plan that an agent or developer can execute without hid
 - Multi-file feature
 - Risky change
 - Existing requirements or design need implementation tasks
+- A `shape-work` brief is ready to convert into tasks
 - User asks for a plan
 - Work should be delegated to agents
 
@@ -37,7 +38,7 @@ If the project already uses `docs/superpowers/plans/`, follow that existing conv
 
 ## Workflow
 
-1. Re-read the start brief, requirements, design, and relevant docs.
+1. Re-read the start brief, `shape-work` brief if present, requirements, design, and relevant docs.
 2. Map files before tasks.
    - Create.
    - Modify.

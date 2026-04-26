@@ -104,6 +104,7 @@ Provider-native files are installed for the selected tools:
 When the user's request matches one of these workflows, use the matching skill before answering directly:
 
 - New feature, vague product request, multi-step build -> ``start-work``
+- Vague product or technical direction needs shaping -> ``shape-work``
 - Requirements or design already exist -> ``plan-work``
 - Written implementation plan ready -> ``execute-work``
 - New behavior, bug fix, or behavior refactor -> ``tdd-work``
@@ -113,10 +114,11 @@ When the user's request matches one of these workflows, use the matching skill b
 - Understand, document, or remember code/project knowledge -> ``capture-learning``
 - Received code review feedback -> ``review-feedback``
 - Review README, install docs, guides, or skill docs -> ``docs-review``
+- Code review, diff review, implementation check -> ``review-work``
 - Branch ready for final review, commit, or PR -> ``finish-work``
 - Create or revise skills -> ``writing-skills``
 
-Golden path: ``start-work -> plan-work -> execute-work -> verify-work -> capture-learning -> finish-work``.
+Golden path: ``start-work -> shape-work when needed -> plan-work -> execute-work -> review-work -> verify-work -> capture-learning -> finish-work``.
 
 Fast path: for tiny low-risk tasks, make the change, run ``verify-work``, and report evidence. Do not create lifecycle docs for typo-level work.
 

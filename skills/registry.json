@@ -9,6 +9,11 @@
       "description": "Use when starting a new feature, unclear request, or multi-step task."
     },
     {
+      "name": "shape-work",
+      "path": "skills/shape-work",
+      "description": "Use when a product or technical request is vague, exploratory, or not ready for implementation planning."
+    },
+    {
       "name": "plan-work",
       "path": "skills/plan-work",
       "description": "Use when requirements exist and a multi-step implementation needs sequencing."
@@ -42,6 +47,11 @@
       "name": "finish-work",
       "path": "skills/finish-work",
       "description": "Use when a branch or task is ready for final review, commit, PR, or handoff."
+    },
+    {
+      "name": "review-work",
+      "path": "skills/review-work",
+      "description": "Use for code review, diff review, implementation review, or checking work against a plan before finishing."
     },
     {
       "name": "writing-skills",

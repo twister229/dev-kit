@@ -52,6 +52,7 @@ Parallel independent-domain dispatch is allowed only when tasks are independent 
    - If spec review fails, return to implementer with exact gaps.
    - Code quality reviewer checks maintainability, simplicity, edge cases, and consistency.
    - If quality review fails, return to implementer with exact fixes.
+   - Use `review-work` for the review gate when no specialized reviewer subagent is used.
    - Run `verify-work` evidence gate.
    - Update the plan with completion status, verification command/result, deviations, and concerns.
    - Mark task complete only after evidence exists.

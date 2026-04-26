@@ -29,6 +29,7 @@ Retained from `obra/superpowers` and adapted for this combined skillset.
 - A skill must include hard rules for common failure modes.
 - A skill must include an explicit workflow.
 - A skill must include output expectations.
+- A new or changed skill must include lightweight evaluation notes or tests.
 - A skill must be short enough that an agent will follow it.
 - Do not write generic advice. Write executable behavior.
 - Keep dev-kit skills offline-safe. Do not require package managers, network calls, or external CLIs unless the skill explicitly targets that tool.
@@ -56,6 +57,8 @@ description: <when to use this skill>
 ## Workflow
 
 ## Output Template
+
+## Evaluation Notes
 
 ## Red Flags
 ```
@@ -127,6 +130,7 @@ Every skill should include a red flag table:
 - [ ] Skill is not a generic essay.
 - [ ] Skill composes with `verify-work` when completion claims are involved.
 - [ ] Positive and negative trigger tests are documented.
+- [ ] Workflow, failure-mode, and output tests are documented or intentionally not needed.
 - [ ] Offline assumptions are explicit.
 
 ## Red Flags

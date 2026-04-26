@@ -9,6 +9,7 @@ The point is not to collect every possible workflow. The point is to make an age
 | Skill | Use When | Combines |
 |---|---|---|
 | `start-work` | Starting a feature, unclear request, or multi-step task | Superpowers brainstorming/worktrees + AI DevKit lifecycle |
+| `shape-work` | Vague product or technical request needs shaping before planning | Superpowers brainstorming + AI DevKit requirement/design review |
 | `plan-work` | Requirements exist and implementation needs sequencing | Superpowers writing-plans + AI DevKit requirements/design review |
 | `execute-work` | A written plan is ready to implement | Superpowers subagent-driven-development + AI DevKit agent orchestration |
 | `debug-root-cause` | Bug, regression, failing test, unexpected behavior | Superpowers systematic-debugging + AI DevKit debug/memory |
@@ -16,6 +17,7 @@ The point is not to collect every possible workflow. The point is to make an age
 | `simplify-work` | Refactor, reduce complexity, clean up, improve maintainability | AI DevKit simplify-implementation + Superpowers YAGNI/TDD discipline |
 | `capture-learning` | Document code, store reusable knowledge, preserve decisions | AI DevKit memory/capture-knowledge + branch finish learnings |
 | `finish-work` | Branch is ready for final review, commit, or PR | Superpowers finish branch + code review workflows |
+| `review-work` | Reviewing diffs or implementation against requirements before finishing | Superpowers requesting-code-review + AI DevKit code review |
 | `writing-skills` | Creating or improving skills | Superpowers writing-skills retained as a first-class skill |
 | `tdd-work` | New behavior, bug fixes, or behavior refactors | Superpowers TDD + AI DevKit TDD |
 | `review-feedback` | Receiving PR comments, outside review, or user critique | Superpowers receiving-code-review |
@@ -29,6 +31,7 @@ Add this to an agent instruction file such as `AGENTS.md`:
 ## Skill Routing
 
 - New feature, vague product request, multi-step build -> `start-work`
+- Vague product or technical direction needs shaping -> `shape-work`
 - Requirements or design already exist -> `plan-work`
 - Written implementation plan ready -> `execute-work`
 - New behavior, bug fix, or behavior refactor -> `tdd-work`
@@ -38,6 +41,7 @@ Add this to an agent instruction file such as `AGENTS.md`:
 - Understand, document, or remember code/project knowledge -> `capture-learning`
 - Received code review feedback -> `review-feedback`
 - Review README, install docs, guides, or skill docs -> `docs-review`
+- Code review, diff review, implementation check -> `review-work`
 - Branch ready for final review, commit, or PR -> `finish-work`
 - Create or revise skills -> `writing-skills`
 ```
@@ -45,7 +49,7 @@ Add this to an agent instruction file such as `AGENTS.md`:
 ## Golden Path
 
 ```text
-start-work -> plan-work -> execute-work -> verify-work -> capture-learning -> finish-work
+start-work -> shape-work when needed -> plan-work -> execute-work -> review-work -> verify-work -> capture-learning -> finish-work
 ```
 
 ## Fast Path

@@ -30,6 +30,7 @@ Finish like a professional. Verify, review, document what changed, capture durab
 - Do not create a PR unless the user explicitly asked for a PR.
 - Do not claim readiness without `verify-work` evidence.
 - Do not ignore unrelated dirty worktree changes. Identify and avoid touching them.
+- If no implementation review evidence exists, use `review-work` before finishing.
 - If unresolved review feedback exists, use `review-feedback` before finishing.
 
 ## Workflow
@@ -39,7 +40,7 @@ Finish like a professional. Verify, review, document what changed, capture durab
    - Staged changes.
    - Unstaged changes.
    - Untracked files.
-2. Review diff.
+2. Review diff with `review-work` if no current review evidence exists.
    - User-visible behavior.
    - Requirements coverage.
    - Edge cases.

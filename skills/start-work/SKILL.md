@@ -49,6 +49,7 @@ Start work without guessing. Understand the user goal, classify risk and size, s
 
 4. Decide the workflow.
    - Tiny: direct change plus `verify-work`.
+   - Vague product or technical direction: `shape-work` before planning.
    - Small: lightweight `plan-work` checklist, then execute inline.
    - Feature: `plan-work` with exact tasks.
    - Risky: full lifecycle docs and explicit approval before implementation.
@@ -86,7 +87,7 @@ Memory applied: ...
 Isolation: worktree | branch | current workspace, reason ...
 Baseline: command/result or not run because ...
 Recommended workflow: ...
-Next skill: `plan-work` | `debug-root-cause` | `verify-work` | direct execution
+Next skill: `shape-work` | `plan-work` | `debug-root-cause` | `verify-work` | direct execution
 ```
 
 ## Red Flags
