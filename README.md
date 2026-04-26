@@ -38,6 +38,8 @@ Pick the smallest workflow that fits the risk:
 | Requirements are ready | `plan-work` | Produces executable tasks with files and commands |
 | Written plan exists | `execute-work` | Implements task-by-task with review gates |
 | Want everything handled end-to-end | `auto-dev-loop` | Runs the lifecycle until verified complete or blocked |
+| Need isolated workspace | `worktree-work` | Creates or selects a safe branch/worktree context |
+| Need multiple agents | `orchestrate-agents` | Coordinates independent workstreams without file conflicts |
 | Bug, regression, or failing test | `debug-root-cause` | Proves root cause before any fix |
 | Behavior change or bug fix | `tdd-work` | Requires red-green-refactor evidence |
 | Diff needs review | `review-work` | Finds correctness risks before handoff |
@@ -96,6 +98,18 @@ For broken behavior, switch to `debug-root-cause` before changing code.
 debug-root-cause the install script fails when the target project path contains spaces
 ```
 
+Use `worktree-work` before implementation when the work needs an isolated filesystem context.
+
+```text
+worktree-work create an isolated worktree for the selected-skills installer feature
+```
+
+Use `orchestrate-agents` when multiple independent streams can safely run without touching the same files.
+
+```text
+orchestrate-agents split reference analysis and README updates into non-overlapping workstreams
+```
+
 ### 5. Verify Before You Believe The Work
 
 Run `verify-work` before saying anything is done, fixed, passing, ready, or complete.
@@ -149,6 +163,8 @@ Only ask for commit, push, PR, or deploy when you actually want those actions.
 | Planned feature | `start-work` -> `plan-work` -> `execute-work` -> `finish-work` |
 | Ambiguous product work | `start-work` -> `shape-work` -> `plan-work` |
 | Regression | `debug-root-cause` -> `tdd-work` -> `verify-work` |
+| Isolated feature | `worktree-work` -> `start-work` -> `execute-work` |
+| Parallel workstreams | `orchestrate-agents` -> `review-work` -> `verify-work` |
 | Agent-written diff | `review-work` -> fixes -> `verify-work` |
 | Unattended implementation | `auto-dev-loop` until complete or blocked |
 
@@ -213,6 +229,8 @@ Expected behavior: the agent inspects the worktree, reviews the diff if needed, 
 | `plan-work` | Requirements exist and implementation needs sequencing | Superpowers writing-plans + AI DevKit requirements/design review |
 | `execute-work` | A written plan is ready to implement | Superpowers subagent-driven-development + AI DevKit agent orchestration |
 | `auto-dev-loop` | User wants the full lifecycle to run autonomously until verified complete or blocked | Agentic Dev System golden path loop |
+| `worktree-work` | Creating, selecting, or verifying isolated git worktrees and branches | Superpowers using-git-worktrees |
+| `orchestrate-agents` | Coordinating multiple agents or parallel workstreams | Superpowers dispatching-parallel-agents + AI DevKit agent orchestration |
 | `debug-root-cause` | Bug, regression, failing test, unexpected behavior | Superpowers systematic-debugging + AI DevKit debug/memory |
 | `verify-work` | About to claim something is done, fixed, passing, or ready | Superpowers verification-before-completion + AI DevKit verify |
 | `simplify-work` | Refactor, reduce complexity, clean up, improve maintainability | AI DevKit simplify-implementation + Superpowers YAGNI/TDD discipline |
@@ -236,6 +254,8 @@ Add this to an agent instruction file such as `AGENTS.md`:
 - Requirements or design already exist -> `plan-work`
 - Written implementation plan ready -> `execute-work`
 - Autonomous end-to-end lifecycle until verified complete or blocked -> `auto-dev-loop`
+- Isolated git worktree or branch context needed -> `worktree-work`
+- Multiple agents or parallel workstreams need coordination -> `orchestrate-agents`
 - New behavior, bug fix, or behavior refactor -> `tdd-work`
 - Bug, failing test, regression, production issue -> `debug-root-cause`
 - Any done/fixed/passing/ready claim -> `verify-work`

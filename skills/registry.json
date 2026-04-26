@@ -29,6 +29,16 @@
       "description": "Use when the user wants an autonomous end-to-end development loop that runs until verified complete or blocked."
     },
     {
+      "name": "worktree-work",
+      "path": "skills/worktree-work",
+      "description": "Use when creating, selecting, verifying, or cleaning up an isolated git worktree or branch for development work."
+    },
+    {
+      "name": "orchestrate-agents",
+      "path": "skills/orchestrate-agents",
+      "description": "Use when coordinating multiple agents or parallel workstreams across research, implementation, review, QA, or documentation."
+    },
+    {
       "name": "debug-root-cause",
       "path": "skills/debug-root-cause",
       "description": "Use for bugs, regressions, failing tests, build failures, production issues, or unexpected behavior."

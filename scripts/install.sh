@@ -131,6 +131,8 @@ When the user's request matches one of these workflows, use the matching skill b
 - Requirements or design already exist -> \`plan-work\`
 - Written implementation plan ready -> \`execute-work\`
 - Autonomous end-to-end lifecycle until verified complete or blocked -> \`auto-dev-loop\`
+- Isolated git worktree or branch context needed -> \`worktree-work\`
+- Multiple agents or parallel workstreams need coordination -> \`orchestrate-agents\`
 - New behavior, bug fix, or behavior refactor -> \`tdd-work\`
 - Bug, failing test, regression, production issue -> \`debug-root-cause\`
 - Any done/fixed/passing/ready claim -> \`verify-work\`
