@@ -18,6 +18,26 @@ Prove the exact claim before making it. This skill protects trust.
 
 No completion claims without fresh verification evidence.
 
+## When To Use
+
+- Before saying work is done, fixed, passing, ready, complete, reviewed, or deployed.
+- After implementing a task or resolving review feedback.
+- Before handing off work, opening a PR, or claiming a bug is fixed.
+- When another agent or tool reports success and you need local evidence.
+
+## When Not To Use
+
+- To choose what to build or how to fix something.
+- As a substitute for `debug-root-cause` when a failure has not been diagnosed.
+- As a substitute for `review-work` when correctness needs human-style inspection.
+
+## Hard Rules
+
+- Verification evidence must be fresh from the current session.
+- The command or manual check must prove the exact claim, not a nearby claim.
+- If verification is inconclusive, report `INCONCLUSIVE` and do not claim success.
+- Do not hide failures inside summaries.
+
 ## Forbidden Completion Words Without Evidence
 
 - should
@@ -31,7 +51,7 @@ No completion claims without fresh verification evidence.
 - passing
 - ready
 
-## Gate Function
+## Workflow
 
 Run all five steps in order:
 
@@ -78,6 +98,14 @@ Key output: ...
 Result: PASS | FAIL | INCONCLUSIVE
 Next action: ...
 ```
+
+## Evaluation Notes
+
+- Trigger test: "Can I say this is ready?" should invoke `verify-work`.
+- Negative trigger test: "Why is this test failing?" should invoke `debug-root-cause`, not `verify-work` alone.
+- Workflow test: A fresh agent can identify a claim, run the proving command, and report exit code.
+- Failure-mode test: A failed command blocks completion language.
+- Output test: The report includes claim, command, exit code, key output, result, and next action.
 
 ## Red Flags
 

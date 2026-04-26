@@ -17,6 +17,13 @@ Handle review feedback with technical rigor. Feedback is input to evaluate, not 
 - Reviewer reports bugs or missing tests
 - Feedback seems unclear, broad, or technically questionable
 
+## When Not To Use
+
+- The user asks for an initial code review: use `review-work`.
+- The user reports a bug without reviewer feedback: use `debug-root-cause`.
+- The user asks to finish a branch after feedback is resolved: use `finish-work`.
+- The feedback is purely documentation review with no implementation impact: use `docs-review`.
+
 ## Hard Rules
 
 - Read all feedback before implementing anything.
@@ -78,6 +85,14 @@ Implementation order:
 Verification:
 - ...
 ```
+
+## Evaluation Notes
+
+- Trigger test: "Address these PR comments" should invoke `review-feedback`.
+- Negative trigger test: "Review my diff" should invoke `review-work`, not `review-feedback`.
+- Workflow test: A fresh agent can classify each feedback item before implementing.
+- Failure-mode test: Technically wrong or scope-expanding feedback is pushed back with evidence.
+- Output test: The plan lists accepted, clarification, pushback, implementation order, and verification.
 
 ## Red Flags
 

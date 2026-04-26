@@ -23,6 +23,13 @@ Turn a plan into working code without context pollution. Each non-trivial task g
 - Multiple agents are running or useful.
 - Work is too large for one uninterrupted inline edit.
 
+## When Not To Use
+
+- Requirements are unclear or still being shaped: use `shape-work` or `plan-work` first.
+- The request is a bug report without a proven root cause: use `debug-root-cause`.
+- The task is tiny and safer inline: execute directly and use `verify-work`.
+- The user asked only for review, planning, or explanation.
+
 ## Hard Rules
 
 - Do not start on `main` or `master` without explicit user approval.
@@ -84,6 +91,28 @@ Implementers and reviewers must report one of:
 - `DONE_WITH_CONCERNS`
 - `NEEDS_CONTEXT`
 - `BLOCKED`
+
+## Output Template
+
+```markdown
+## Execution Report
+
+Plan: ...
+Tasks completed: ...
+Review gates: spec compliance, code quality
+Verification: command, exit code, key output
+Plan updates: ...
+Status: DONE | DONE_WITH_CONCERNS | NEEDS_CONTEXT | BLOCKED
+Next skill: `finish-work` | `debug-root-cause` | `review-feedback`
+```
+
+## Evaluation Notes
+
+- Trigger test: "Execute this implementation plan" should invoke `execute-work`.
+- Negative trigger test: "Write a plan for this" should invoke `plan-work`, not `execute-work`.
+- Workflow test: A fresh agent can complete one plan task, run review gates, and update status.
+- Failure-mode test: Spec review failures loop back before code quality review.
+- Output test: The report includes task status, review gates, verification evidence, and next skill.
 
 ## Red Flags
 

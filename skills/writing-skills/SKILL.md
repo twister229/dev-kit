@@ -22,6 +22,13 @@ Retained from `obra/superpowers` and adapted for this combined skillset.
 - Add routing rules.
 - Convert a repeated workflow into reusable instructions.
 
+## When Not To Use
+
+- The user asks to execute a product or code task rather than define agent behavior.
+- The request is only to review implementation code: use `review-work`.
+- The request is to improve user-facing docs that are not skills: use `docs-review`.
+- The skill change is already planned and ready to implement at larger scale: use `execute-work` with this skill as the quality standard.
+
 ## Hard Rules
 
 - A skill must have a clear trigger.
@@ -132,6 +139,27 @@ Every skill should include a red flag table:
 - [ ] Positive and negative trigger tests are documented.
 - [ ] Workflow, failure-mode, and output tests are documented or intentionally not needed.
 - [ ] Offline assumptions are explicit.
+
+## Output Template
+
+```markdown
+## Skill Review
+
+Skills reviewed: ...
+Changes made: ...
+Checklist results: ...
+Evaluation notes added: ...
+Verification: ...
+Remaining risks: ...
+```
+
+## Evaluation Notes
+
+- Trigger test: "Create a new skill for X" should invoke `writing-skills`.
+- Negative trigger test: "Implement feature X" should invoke `start-work` or `tdd-work`, not `writing-skills`.
+- Workflow test: A fresh agent can evaluate a skill against the checklist and patch concrete gaps.
+- Failure-mode test: Generic advice without triggers, hard rules, workflow, and output expectations is rejected.
+- Output test: The review states skills reviewed, changes made, checklist results, verification, and risks.
 
 ## Red Flags
 

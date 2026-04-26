@@ -23,6 +23,13 @@ Make code easier to understand and safer to change. Optimize for readability, no
 - Remove over-engineering
 - Make code easier to understand
 
+## When Not To Use
+
+- Behavior is broken or tests are failing for unknown reasons: use `debug-root-cause`.
+- The user asks for a new feature: use `start-work` or `tdd-work`.
+- The user asks only for review: use `review-work`.
+- The desired simplification would change public behavior without explicit approval.
+
 ## Hard Rules
 
 - Do not modify code until the simplification target and plan are clear.
@@ -82,6 +89,14 @@ Not changing: ...
 Risk: ...
 Verification: ...
 ```
+
+## Evaluation Notes
+
+- Trigger test: "Simplify this module without changing behavior" should invoke `simplify-work`.
+- Negative trigger test: "Why is this module failing?" should invoke `debug-root-cause`, not `simplify-work`.
+- Workflow test: A fresh agent can name target complexity, proposed changes, and verification.
+- Failure-mode test: Scope creep into unrelated cleanup is rejected.
+- Output test: The plan states target, current complexity, recommended changes, non-changes, risk, and verification.
 
 ## Red Flags
 

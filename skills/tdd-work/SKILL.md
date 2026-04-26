@@ -17,6 +17,13 @@ Use tests to define behavior before implementation. The test is the spec. If it 
 - Planned implementation tasks with acceptance criteria
 - Regression coverage for a root-cause fix
 
+## When Not To Use
+
+- Documentation-only changes, unless docs examples are executable behavior.
+- Pure formatting or mechanical renames with no behavior change.
+- Exploratory shaping or planning before behavior is defined.
+- Broken behavior without a known root cause: use `debug-root-cause` first.
+
 ## Exceptions
 
 Ask before skipping TDD for:
@@ -32,6 +39,15 @@ No production code without a failing test first.
 
 If production code was written before its test, delete it and start over from the failing test. Keeping it as reference is still test-after.
 
+## Hard Rules
+
+- Test behavior, not internals.
+- Name the test after what the system should do.
+- One behavior per test.
+- The failure must be meaningful: missing behavior, wrong return value, unmet condition.
+- If the test passes immediately, it is not testing new behavior.
+- If the test fails because of syntax or setup, fix setup and rerun until it fails for the intended reason.
+
 ## Workflow
 
 1. Pick one unit of behavior.
@@ -46,12 +62,9 @@ If production code was written before its test, delete it and start over from th
 
 ## Red Rules
 
-- Test behavior, not internals.
-- Name the test after what the system should do.
-- One behavior per test.
-- The failure must be meaningful: missing behavior, wrong return value, unmet condition.
-- If the test passes immediately, it is not testing new behavior.
-- If the test fails because of syntax or setup, fix setup and rerun until it fails for the intended reason.
+- Red means the test fails for the intended behavior reason.
+- Setup or syntax failures are not a valid red state.
+- Passing immediately means the test does not prove new behavior.
 
 ## Green Rules
 
@@ -86,6 +99,14 @@ Green result: passed, exit ...
 Refactor verification: ...
 Remaining behavior: ...
 ```
+
+## Evaluation Notes
+
+- Trigger test: "Implement this new behavior" should invoke `tdd-work`.
+- Negative trigger test: "Review this implementation" should invoke `review-work`, not `tdd-work`.
+- Workflow test: A fresh agent can show red, green, and post-refactor verification commands.
+- Failure-mode test: A test that passes immediately is rejected as not proving new behavior.
+- Output test: The result includes red command/result, green command/result, and remaining behavior.
 
 ## Anti-Patterns
 

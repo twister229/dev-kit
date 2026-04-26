@@ -23,6 +23,13 @@ Finish like a professional. Verify, review, document what changed, capture durab
 - Before handing off to another developer.
 - Before opening a PR.
 
+## When Not To Use
+
+- Implementation is still in progress or verification is failing.
+- The user asks only for a code review: use `review-work`.
+- The user asks only to verify one claim: use `verify-work`.
+- The user asks to plan or shape future work rather than finish current work.
+
 ## Hard Rules
 
 - Do not commit unless the user explicitly asked for a commit.
@@ -71,7 +78,7 @@ Finish like a professional. Verify, review, document what changed, capture durab
    - Follow-ups.
 7. If user requested commit or PR, perform only the requested action.
 
-## Final Summary Template
+## Output Template
 
 ```markdown
 ## Finish Summary
@@ -84,6 +91,14 @@ Risks: ...
 Learning captured: ...
 Next action: ...
 ```
+
+## Evaluation Notes
+
+- Trigger test: "Finish this branch and prepare a handoff" should invoke `finish-work`.
+- Negative trigger test: "Implement task 3" should invoke `execute-work` or `tdd-work`, not `finish-work`.
+- Workflow test: A fresh agent can inspect worktree, review diff, verify, and produce handoff notes.
+- Failure-mode test: Commit, push, and PR creation do not happen without explicit user request.
+- Output test: The summary includes changed work, verification, review, risks, learning, and next action.
 
 ## Red Flags
 

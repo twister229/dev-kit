@@ -22,6 +22,13 @@ Start work without guessing. Understand the user goal, classify risk and size, s
 - Existing feature needs extension
 - User says "start", "build", "add", "implement", or "create" and scope is not trivial
 
+## When Not To Use
+
+- User asks only for an explanation, review, or brainstorming with no intent to implement.
+- A written implementation plan is already ready: use `execute-work`.
+- A bug, regression, failing test, or unexpected behavior is the core request: use `debug-root-cause`.
+- The task is a tiny obvious edit with a clear check: make the change directly and use `verify-work`.
+
 ## Hard Rules
 
 - Do not code during this skill.
@@ -89,6 +96,14 @@ Baseline: command/result or not run because ...
 Recommended workflow: ...
 Next skill: `shape-work` | `plan-work` | `debug-root-cause` | `verify-work` | direct execution
 ```
+
+## Evaluation Notes
+
+- Trigger test: "Start building a user settings page" should invoke `start-work`.
+- Negative trigger test: "Review this diff" should invoke `review-work`, not `start-work`.
+- Workflow test: A fresh agent can produce a start brief without editing code.
+- Failure-mode test: Baseline failures stop the workflow instead of being ignored.
+- Output test: The brief names risk, evidence checked, isolation, baseline, and next skill.
 
 ## Red Flags
 

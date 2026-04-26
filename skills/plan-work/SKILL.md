@@ -23,6 +23,13 @@ Create an implementation plan that an agent or developer can execute without hid
 - User asks for a plan
 - Work should be delegated to agents
 
+## When Not To Use
+
+- Requirements are still vague or exploratory: use `shape-work` first.
+- A written implementation plan is already ready: use `execute-work`.
+- The user asked to implement immediately and the change is tiny: execute directly and use `verify-work`.
+- The request is a bug report without root cause: use `debug-root-cause`.
+
 ## Hard Rules
 
 - Do not write placeholders.
@@ -58,7 +65,11 @@ If the project already uses `docs/superpowers/plans/`, follow that existing conv
    - Type/name consistency.
    - Verification commands exist.
 
-## Required Plan Header
+## Output Template
+
+Use this header and task template for implementation plans.
+
+### Required Plan Header
 
 ```markdown
 # <Feature Name> Implementation Plan
@@ -71,7 +82,7 @@ Execution: Use `execute-work` for task-by-task implementation.
 Verification: Use `verify-work` before any completion claim.
 ```
 
-## Task Template
+### Task Template
 
 ````markdown
 ## Task N: <Name>
@@ -107,6 +118,14 @@ Expected: fails because `<reason>`
 Command: `<command>`
 Expected: pass, exit 0
 ````
+
+## Evaluation Notes
+
+- Trigger test: "Plan how to add X using these requirements" should invoke `plan-work`.
+- Negative trigger test: "Implement this plan" should invoke `execute-work`, not `plan-work`.
+- Workflow test: A fresh agent can execute each task from the plan without hidden context.
+- Failure-mode test: Placeholder tasks like "add tests" are rejected.
+- Output test: The plan names files, acceptance criteria, commands, and expected results.
 
 ## Red Flags
 

@@ -18,6 +18,13 @@ Review documentation as a new user would experience it. Good docs let someone su
 - User asks to improve technical writing
 - A feature changed behavior and docs may be stale
 
+## When Not To Use
+
+- The request is a code review with docs as a small part: use `review-work`.
+- The user asks to implement product behavior: use `start-work` or `tdd-work`.
+- The user asks to capture durable code knowledge: use `capture-learning`.
+- The user asked for edits and the docs issue is tiny: make the change and use `verify-work` for claims.
+
 ## Hard Rules
 
 - Do not rewrite docs until the user approves, unless they explicitly asked for edits.
@@ -68,6 +75,14 @@ Issues:
 Suggested fixes:
 - ...
 ```
+
+## Evaluation Notes
+
+- Trigger test: "Review the README onboarding flow" should invoke `docs-review`.
+- Negative trigger test: "Review this code diff" should invoke `review-work`, not `docs-review`.
+- Workflow test: A fresh agent can rate docs across the four dimensions and provide concrete replacement text.
+- Failure-mode test: Vague advice without suggested wording is rejected.
+- Output test: The review includes ratings, prioritized issues, and suggested fixes.
 
 ## Red Flags
 

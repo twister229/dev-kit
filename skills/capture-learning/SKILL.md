@@ -24,6 +24,13 @@ Make knowledge compound. Capture what future sessions will reuse, and skip what 
 - A module is important enough to map for future work.
 - Finishing a feature revealed reusable decisions.
 
+## When Not To Use
+
+- Capturing one-off task progress or a session transcript.
+- Storing unverified guesses, raw logs, or sensitive data.
+- The user only needs implementation, review, or verification.
+- Existing memory already covers the same knowledge.
+
 ## Hard Rules
 
 - Do not store secrets, credentials, customer data, private data, raw logs, or transcripts.
@@ -104,6 +111,14 @@ Evidence: ...
 Location: ...
 Future use: ...
 ```
+
+## Evaluation Notes
+
+- Trigger test: "Document how this module works for future agents" should invoke `capture-learning`.
+- Negative trigger test: "Save that I finished task 2" should not store memory.
+- Workflow test: A fresh agent can search existing memory, verify evidence, and write a narrow Markdown entry.
+- Failure-mode test: Secrets, raw logs, transcripts, and speculation are rejected.
+- Output test: The result includes type, scope, evidence, location, and future use.
 
 ## Red Flags
 

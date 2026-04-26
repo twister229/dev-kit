@@ -30,6 +30,13 @@ No fixes without root cause investigation first.
 - Unexpected behavior
 - Previous fix did not work
 
+## When Not To Use
+
+- The request is a planned new feature with no failing behavior: use `start-work` or `plan-work`.
+- The user asks only for code review: use `review-work`.
+- The root cause is already proven and a plan exists: use `tdd-work` or `execute-work`.
+- The issue is vague product direction rather than broken behavior: use `shape-work`.
+
 ## Hard Rules
 
 - Do not modify code during investigation.
@@ -99,6 +106,14 @@ Verification: ...
 Memory stored: yes/no
 Remaining risks: ...
 ```
+
+## Evaluation Notes
+
+- Trigger test: "This test started failing" should invoke `debug-root-cause`.
+- Negative trigger test: "Add a new export for X" should use `start-work` or `tdd-work`, not `debug-root-cause`.
+- Workflow test: A fresh agent can reproduce, inspect evidence, form one hypothesis, and test it.
+- Failure-mode test: The skill prevents code edits before root cause evidence exists.
+- Output test: The debug report includes reproduction, evidence, root cause, fix, verification, and memory status.
 
 ## Red Flags
 

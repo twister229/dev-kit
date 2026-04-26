@@ -24,6 +24,11 @@
       "description": "Use when a written implementation plan is ready."
     },
     {
+      "name": "auto-dev-loop",
+      "path": "skills/auto-dev-loop",
+      "description": "Use when the user wants an autonomous end-to-end development loop that runs until verified complete or blocked."
+    },
+    {
       "name": "debug-root-cause",
       "path": "skills/debug-root-cause",
       "description": "Use for bugs, regressions, failing tests, build failures, production issues, or unexpected behavior."
