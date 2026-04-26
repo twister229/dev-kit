@@ -36,6 +36,8 @@ Create an implementation plan that an agent or developer can execute without hid
 - Do not write "add tests" without actual test cases or commands.
 - Do not plan broad independent systems in one plan. Split them.
 - Do not touch implementation code during this skill.
+- Use repo-local evidence and existing project commands. Do not require package-manager installs, network access, or external CLIs unless already part of the project and explicitly approved.
+- If exact files, commands, or requirements cannot be determined from repo evidence, ask instead of producing a speculative plan.
 
 ## Plan Location
 

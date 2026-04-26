@@ -43,6 +43,7 @@ No fixes without root cause investigation first.
 - Do not propose a fix before reproducing or gathering evidence.
 - Test one hypothesis at a time.
 - If three fix attempts fail, stop and question the architecture.
+- Use repo-local commands and evidence by default. Do not require network access, package-manager installs, or external systems unless the issue explicitly involves them and the user authorizes it.
 
 ## Workflow
 

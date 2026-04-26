@@ -39,6 +39,7 @@ Find real implementation risks before handoff. Review is a gate for correctness,
 - Run spec compliance review before code quality review.
 - Critical correctness, security, data-loss, or test-gap findings block completion.
 - Use file and line references for findings when possible.
+- Base reviews on local diffs, files, plans, and verification output. Do not require external services or network tools unless they are explicitly part of the review target.
 
 ## Workflow
 

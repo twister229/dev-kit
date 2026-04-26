@@ -33,6 +33,8 @@ Coordinate multiple agents without collisions, duplicated work, or unverified cl
 - Stop and reconcile if two agents touch the same file unexpectedly.
 - Use `worktree-work` first when parallel implementation needs separate filesystem contexts.
 - Do not claim completion until `review-work` and `verify-work` evidence exists.
+- Use local repository context and available agent mechanisms only. Do not require network or remote coordination unless the user explicitly requested it.
+- If subagent tooling is unavailable or unsupported, fall back to serial execution instead of inventing orchestration.
 
 ## Workflow
 

@@ -33,6 +33,7 @@ Handle review feedback with technical rigor. Feedback is input to evaluate, not 
 - Implement one feedback item at a time.
 - Run verification after each item or small related group.
 - Do not use performative agreement such as "absolutely right" or "great point".
+- Evaluate feedback using local code, docs, diffs, and user-provided context. Do not fetch PR or comment context from the network unless the user provides it or authorizes it.
 
 ## Workflow
 
@@ -77,7 +78,7 @@ Needs clarification:
 - ...
 
 Pushing back:
-- ...
+- <item> — reason/evidence: ...
 
 Implementation order:
 1. ...

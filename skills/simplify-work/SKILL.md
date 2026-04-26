@@ -37,6 +37,7 @@ Make code easier to understand and safer to change. Optimize for readability, no
 - Do not invent abstractions for hypothetical reuse.
 - Some duplication beats the wrong abstraction.
 - Preserve behavior unless the user explicitly asks to change it.
+- Use local repository context and existing project-local verification commands. Do not require network access or external tooling.
 
 ## Workflow
 

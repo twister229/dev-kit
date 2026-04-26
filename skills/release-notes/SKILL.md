@@ -34,26 +34,28 @@ Turn completed changes into accurate release communication that explains user im
 - Call out breaking changes, migration steps, deprecations, and compatibility notes.
 - Name verification gaps when evidence is incomplete.
 - Keep release notes concise and useful to the intended audience.
+- Draft from local diffs, commits, plans, verification output, or user-provided summaries. Do not require network access or release tooling unless the user explicitly asks to publish.
 
 ## Workflow
 
 1. Identify the target format: changelog entry, release notes, migration notes, or upgrade guidance.
-2. Gather evidence.
+2. Identify the target audience: end users, developers, maintainers, operators, or reviewers.
+3. Gather evidence.
    - Diff.
    - Commit range.
    - Plan or design doc.
    - Verification output.
    - User-provided change summary.
-3. Group changes by user impact.
+4. Group changes by user impact.
    - Added.
    - Changed.
    - Fixed.
    - Removed.
    - Internal.
-4. Identify breaking changes, migrations, deprecations, and upgrade actions.
-5. Draft notes in the project's existing voice and format when one exists.
-6. Check every claim against evidence.
-7. Name verification gaps or unknowns instead of filling them in.
+5. Identify breaking changes, migrations, deprecations, and upgrade actions.
+6. Draft notes in the project's existing voice and format when one exists.
+7. Check every claim against evidence.
+8. Name verification gaps or unknowns instead of filling them in.
 
 ## Output Template
 

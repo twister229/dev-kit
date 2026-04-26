@@ -32,6 +32,7 @@ Keep non-trivial work isolated from the main workspace. Choose a safe branch or 
 - If using a project-local worktree directory, verify it is ignored before creating files there.
 - Do not overwrite an existing worktree path.
 - After setup, report the exact path and branch that future commands should use.
+- If the worktree is dirty or the target branch/path is ambiguous, ask before changing context.
 
 ## Workflow
 
@@ -41,8 +42,8 @@ Keep non-trivial work isolated from the main workspace. Choose a safe branch or 
    - Parallel agent work.
    - Resume existing isolated context.
 2. Inspect current context.
-   - Current branch.
-   - Existing worktrees.
+   - Current branch with `git status --short --branch`.
+   - Existing worktrees with `git worktree list`.
    - Worktree parent directory convention.
    - Dirty worktree status.
 3. Choose target.
@@ -52,7 +53,7 @@ Keep non-trivial work isolated from the main workspace. Choose a safe branch or 
 4. Safety check before creation.
    - Confirm parent path exists or create only the intended parent.
    - Confirm the destination path does not exist.
-   - Confirm ignored status for project-local worktree directories.
+   - Confirm ignored status for project-local worktree directories with `git check-ignore <path>` or repository ignore rules.
 5. Create or select the context.
    - Use non-interactive git commands only.
    - Do not modify unrelated dirty files.

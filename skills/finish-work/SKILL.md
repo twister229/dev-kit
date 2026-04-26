@@ -42,6 +42,7 @@ Finish like a professional. Verify, review, document what changed, capture durab
 - Do not ignore unrelated dirty worktree changes. Identify and avoid touching them.
 - If no implementation review evidence exists, use `review-work` before finishing.
 - If unresolved review feedback exists, use `review-feedback` before finishing.
+- Use repository-local verification commands from project docs or config. Do not require network access, external services, commits, pushes, or PR creation unless the user explicitly requested that finish action.
 
 ## Workflow
 

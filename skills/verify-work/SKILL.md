@@ -37,6 +37,7 @@ No completion claims without fresh verification evidence.
 - The command or manual check must prove the exact claim, not a nearby claim.
 - If verification is inconclusive, report `INCONCLUSIVE` and do not claim success.
 - Do not hide failures inside summaries.
+- Use existing local project commands and manual checks by default. Do not require external services, network access, or remote CI unless the exact claim depends on them and the user authorizes it.
 
 ## Forbidden Completion Words Without Evidence
 
@@ -114,3 +115,4 @@ Next action: ...
 | "I ran it earlier" | Code may have changed | Run it again |
 | "CI will catch it" | CI is backup, not substitute | Verify locally first |
 | "This is trivial" | Trivial changes break things | Run the smallest useful check |
+| "I saw enough output" | Truncated output may hide failures | Read the complete output and exit code |

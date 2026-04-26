@@ -31,6 +31,7 @@ Run the agentic development lifecycle without waiting for phase-by-phase prompts
 - Do not dispatch overlapping agents to edit the same files.
 - Do not commit, push, deploy, or run destructive commands unless the user explicitly asked for that action.
 - Prefer the smallest correct change. Do not expand scope just because the loop is autonomous.
+- Stay offline and local by default. Do not use network access, credentials, package-manager installs, deploys, commits, or pushes without explicit user approval.
 
 ## Workflow
 
@@ -97,6 +98,7 @@ Next action: ...
 - Trigger test: `run the full lifecycle for this bug until it passes` should invoke this skill and route through `debug-root-cause` plus `tdd-work`.
 - Negative trigger test: `write a plan for X but do not implement` should use `plan-work`, not this skill.
 - Negative trigger test: `review this diff` should use `review-work`, not this skill.
+- Workflow test: A fresh agent can route vague, clear, bug, and tiny requests through the correct lifecycle skill, loop through review and verification, and stop at the defined stop conditions.
 - Failure-mode test: if verification fails twice for the same cause, the skill must stop instead of thrashing.
 - Output test: final response must include fresh verification evidence and must not say complete without it.
 

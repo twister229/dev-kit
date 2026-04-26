@@ -33,6 +33,7 @@ Preserve enough current working context for a future agent or developer to resum
 - Do not use this as durable memory. If knowledge will matter across future work, use `capture-learning` separately.
 - Do not claim work is done unless `verify-work` evidence exists.
 - Do not run `verify-work` just to create a handoff unless the user requested a readiness claim; otherwise list prior evidence or mark verification as not run.
+- Handoffs are local Markdown only. Do not require network services, external memory tools, transcript export, or raw chat history.
 
 ## Workflow
 
