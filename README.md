@@ -43,6 +43,115 @@ Pick the smallest workflow that fits the risk:
 | Diff needs review | `review-work` | Finds correctness risks before handoff |
 | Branch is ready to hand off | `finish-work` | Runs final review, verification, and summary |
 
+## Daily Workflow
+
+Use the dev-kit as the default operating rhythm for everyday coding. The goal is not to run every skill every time; the goal is to start with the right amount of structure, keep evidence fresh, and avoid silent scope drift.
+
+### 1. Start The Day Or A New Task
+
+Begin with the smallest prompt that captures the outcome you want.
+
+```text
+start-work add support for installing selected skills only
+```
+
+For routine low-risk edits, skip planning and ask for the direct change plus verification.
+
+```text
+Fix the typo in the install docs and run verify-work for the README diff.
+```
+
+### 2. Shape Before Planning When The Request Is Fuzzy
+
+If the work is ambiguous, use `shape-work` before writing a plan. This is useful for product decisions, workflow changes, API shape, or competing implementation approaches.
+
+```text
+shape-work think through the best daily workflow for using these skills in a real project
+```
+
+Stop shaping when the desired user outcome, constraints, out-of-scope boundaries, and acceptance signals are clear.
+
+### 3. Plan Only When Sequencing Matters
+
+Use `plan-work` for multi-file changes, risky behavior, or work you want another agent to execute from a clean context.
+
+```text
+plan-work turn this shaping brief into implementation tasks with files, tests, and commands
+```
+
+Do not create lifecycle docs for typo-level work, simple docs edits, or changes with one obvious verification command.
+
+### 4. Execute With Tests And Review Gates
+
+Use `execute-work` when a plan exists. Use `tdd-work` directly when you are implementing a small behavior change.
+
+```text
+execute-work implement task 1 from docs/ai/planning/feature-selected-skills.md
+tdd-work add regression coverage for paths with spaces in the installer
+```
+
+For broken behavior, switch to `debug-root-cause` before changing code.
+
+```text
+debug-root-cause the install script fails when the target project path contains spaces
+```
+
+### 5. Verify Before You Believe The Work
+
+Run `verify-work` before saying anything is done, fixed, passing, ready, or complete.
+
+```text
+verify-work prove the installer still works for Claude and OpenCode targets
+```
+
+Good daily habit: make the agent report the command, exit code, key output, and result. If verification fails, keep working or report the blocker instead of softening the claim.
+
+### 6. Review Before Handoff
+
+Use `review-work` before finishing a meaningful diff, especially if an agent wrote the code.
+
+```text
+review-work review the current diff for correctness, missed requirements, and test gaps
+```
+
+If review comments arrive later, use `review-feedback` instead of blindly applying them.
+
+```text
+review-feedback evaluate these PR comments and implement only the accepted items
+```
+
+### 7. Capture Reusable Lessons Sparingly
+
+Use `capture-learning` only for knowledge future sessions will reuse: conventions, root causes, setup gotchas, or important module maps.
+
+```text
+capture-learning store the verified installer path-handling convention
+```
+
+Do not store transcripts, raw logs, secrets, or one-off progress.
+
+### 8. Finish The Work Cleanly
+
+End with `finish-work` when the branch or task is ready for handoff.
+
+```text
+finish-work prepare a final summary with verification evidence. Do not commit or push.
+```
+
+Only ask for commit, push, PR, or deploy when you actually want those actions.
+
+### Common Daily Loops
+
+| Loop | Use |
+|---|---|
+| Tiny docs fix | Direct edit -> `verify-work` |
+| Small behavior change | `tdd-work` -> `review-work` -> `verify-work` |
+| Planned feature | `start-work` -> `plan-work` -> `execute-work` -> `finish-work` |
+| Ambiguous product work | `start-work` -> `shape-work` -> `plan-work` |
+| Regression | `debug-root-cause` -> `tdd-work` -> `verify-work` |
+| Agent-written diff | `review-work` -> fixes -> `verify-work` |
+| Unattended implementation | `auto-dev-loop` until complete or blocked |
+
 ## Use Cases
 
 ### Build A Feature End-To-End
