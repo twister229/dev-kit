@@ -1,12 +1,26 @@
 # Agentic Dev System Skills
 
-V2 combined skillset based on `obra/superpowers` and `codeaholicguy/ai-devkit`.
+Combined skillset based on `obra/superpowers` and `codeaholicguy/ai-devkit`.
 
 The point is not to collect every possible workflow. The point is to make an agent behave like a careful developer: scope the work, plan only when useful, execute with clean context, verify with fresh evidence, and store lessons that will save time later.
 
 ## How To Use
 
 Install the skills into a project, then ask your coding agent for the workflow you want. You can name a skill directly, or describe the intent and let the routing rules pick the skill.
+
+Quick install from this repository:
+
+```bash
+./scripts/install.sh /path/to/project
+```
+
+On Windows PowerShell:
+
+```powershell
+./scripts/install.ps1 -TargetProject C:\path\to\project
+```
+
+The installer is offline-safe. It copies local skill files and updates local instruction files; it does not use package managers, `curl`, or network access.
 
 Use direct skill names when you know the workflow:
 
@@ -43,6 +57,8 @@ Pick the smallest workflow that fits the risk:
 | Bug, regression, or failing test | `debug-root-cause` | Proves root cause before any fix |
 | Behavior change or bug fix | `tdd-work` | Requires red-green-refactor evidence |
 | Diff needs review | `review-work` | Finds correctness risks before handoff |
+| Dependency or lockfile work | `dependency-work` | Handles dependency changes with convention checks |
+| Docs need review | `docs-review` | Reviews README, install docs, guides, or skill docs |
 | Branch is ready to hand off | `finish-work` | Runs final review, verification, and summary |
 
 ## Daily Workflow
@@ -235,12 +251,15 @@ Expected behavior: the agent inspects the worktree, reviews the diff if needed, 
 | `verify-work` | About to claim something is done, fixed, passing, or ready | Superpowers verification-before-completion + AI DevKit verify |
 | `simplify-work` | Refactor, reduce complexity, clean up, improve maintainability | AI DevKit simplify-implementation + Superpowers YAGNI/TDD discipline |
 | `capture-learning` | Document code, store reusable knowledge, preserve decisions | AI DevKit memory/capture-knowledge + branch finish learnings |
+| `context-handoff` | Saving or restoring one-off working context for paused work or another agent | Safe local handoff discipline |
 | `finish-work` | Branch is ready for final review, commit, or PR | Superpowers finish branch + code review workflows |
 | `review-work` | Reviewing diffs or implementation against requirements before finishing | Superpowers requesting-code-review + AI DevKit code review |
 | `writing-skills` | Creating or improving skills | Superpowers writing-skills retained as a first-class skill |
 | `tdd-work` | New behavior, bug fixes, or behavior refactors | Superpowers TDD + AI DevKit TDD |
 | `review-feedback` | Receiving PR comments, outside review, or user critique | Superpowers receiving-code-review |
 | `docs-review` | Reviewing README, install docs, guides, or skill docs | AI DevKit technical-writer |
+| `dependency-work` | Adding, removing, updating, auditing, or diagnosing dependencies and lockfiles | Dependency convention and verification workflow |
+| `release-notes` | Writing changelog entries, release notes, migration notes, or upgrade guidance | Evidence-based release communication |
 
 ## Routing
 
@@ -261,10 +280,13 @@ Add this to an agent instruction file such as `AGENTS.md`:
 - Any done/fixed/passing/ready claim -> `verify-work`
 - Refactor, simplify, reduce complexity -> `simplify-work`
 - Understand, document, or remember code/project knowledge -> `capture-learning`
+- Save or restore one-off working context -> `context-handoff`
 - Received code review feedback -> `review-feedback`
 - Review README, install docs, guides, or skill docs -> `docs-review`
+- Add, remove, update, audit, or diagnose dependencies -> `dependency-work`
 - Code review, diff review, implementation check -> `review-work`
 - Branch ready for final review, commit, or PR -> `finish-work`
+- Changelog, release notes, migration notes, or upgrade guidance -> `release-notes`
 - Create or revise skills -> `writing-skills`
 ```
 
@@ -293,6 +315,18 @@ For tiny low-risk tasks, do not create lifecycle docs. Make the change, run `ver
 Installers do not use `npm`, `npx`, `curl`, package managers, or network access. They copy files from this repository into the target project and update local instruction files.
 
 Project memory is plain Markdown under `docs/ai/memory/` or `.agentic-dev-system/memory/`. No database or external CLI is required.
+
+## Project Layout
+
+| Path | Purpose |
+|---|---|
+| `skills/` | Source skills installed into target projects |
+| `skills/registry.json` | Offline skill registry copied next to provider targets |
+| `scripts/install.sh` | macOS/Linux installer |
+| `scripts/install.ps1` | Windows PowerShell installer |
+| `tests/` | Shell and PowerShell smoke tests for installer and skill structure |
+| `docs/ai/` | Planning notes and evaluation docs |
+| `references/upstream/` | Local source-project snapshots, not installed into target projects |
 
 ## Upstream References
 
@@ -363,4 +397,20 @@ Replace an existing installed skill copy:
 
 ```powershell
 ./scripts/install.ps1 -TargetProject C:\path\to\project -Force
+```
+
+## Verify This Repository
+
+Run the local checks before changing installer or skill structure behavior:
+
+```bash
+./tests/test-skill-structure.sh
+./tests/test-install.sh
+./tests/test-upstream-references.sh
+```
+
+On Windows PowerShell, run the installer smoke test:
+
+```powershell
+./tests/test-install.ps1
 ```
