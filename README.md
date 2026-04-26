@@ -55,3 +55,53 @@ For tiny low-risk tasks, do not create lifecycle docs. Make the change, run `ver
 - Spec compliance review comes before code quality review.
 - Store only reusable, verified knowledge. Do not store transcripts, secrets, or one-off progress.
 - Some duplication beats the wrong abstraction.
+
+## Install
+
+Install the skills into another project:
+
+```bash
+./scripts/install.sh /path/to/project
+```
+
+On Windows PowerShell:
+
+```powershell
+./scripts/install.ps1 -TargetProject C:\path\to\project
+```
+
+By default this copies skills into `.agentic-dev-system/skills` inside the target project and installs routing instructions for:
+
+- Claude: `CLAUDE.md`
+- OpenCode: `AGENTS.md`
+- GitHub Copilot: `.github/copilot-instructions.md`
+
+Install only selected instruction targets:
+
+```bash
+./scripts/install.sh /path/to/project --claude --opencode
+```
+
+```powershell
+./scripts/install.ps1 -TargetProject C:\path\to\project -Claude -OpenCode
+```
+
+Install to a custom project-relative skills directory:
+
+```bash
+./scripts/install.sh /path/to/project --skills-dir .claude/skills
+```
+
+```powershell
+./scripts/install.ps1 -TargetProject C:\path\to\project -SkillsDir .claude/skills
+```
+
+Replace an existing installed skill copy:
+
+```bash
+./scripts/install.sh /path/to/project --force
+```
+
+```powershell
+./scripts/install.ps1 -TargetProject C:\path\to\project -Force
+```
