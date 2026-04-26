@@ -68,6 +68,21 @@ Installers do not use `npm`, `npx`, `curl`, package managers, or network access.
 
 Project memory is plain Markdown under `docs/ai/memory/` or `.agentic-dev-system/memory/`. No database or external CLI is required.
 
+## Upstream References
+
+Reference snapshots from the source projects live under `references/upstream/`:
+
+- `references/upstream/superpowers/`
+- `references/upstream/ai-devkit/`
+
+These folders are for future skill and workflow design. They are not installed into target projects.
+
+Refresh them with:
+
+```bash
+./scripts/sync-upstream-references.sh
+```
+
 ## Install
 
 Install the skills into another project:
