@@ -1,6 +1,6 @@
 # Upstream References
 
-This directory stores snapshots from the two source repositories used to design this dev-kit.
+This directory stores snapshots from source repositories used to design this dev-kit.
 
 These files are reference material only. They are not installed by `scripts/install.sh` or `scripts/install.ps1`.
 
@@ -8,6 +8,7 @@ These files are reference material only. They are not installed by `scripts/inst
 
 - `superpowers/`: snapshot from `https://github.com/obra/superpowers.git`
 - `ai-devkit/`: snapshot from `https://github.com/codeaholicguy/ai-devkit.git`
+- `andrej-karpathy-skills/`: snapshot from `https://github.com/forrestchang/andrej-karpathy-skills.git`
 
 Each source directory includes `SOURCE.md` with the synced commit and timestamp.
 

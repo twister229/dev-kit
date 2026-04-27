@@ -61,6 +61,7 @@ Start work without guessing. Understand the user goal, classify risk and size, s
 - Do not ask questions already answered by repo docs, memory, or code.
 - If a worktree is available and the change is non-trivial, prefer an isolated worktree or branch.
 - Do not rely on `npm`, `npx`, network fetches, or external CLIs for dev-kit behavior. This kit must remain offline-installable.
+- If the request has meaningful ambiguity, name assumptions, tradeoffs, and simpler alternatives before choosing the next workflow.
 
 ## Workflow
 
@@ -69,6 +70,7 @@ Start work without guessing. Understand the user goal, classify risk and size, s
    - Small: 1-3 files, moderate clarity.
    - Feature: multiple files or user-visible behavior.
    - Risky: auth, payments, data loss, security, migrations, production systems.
+   - Record assumptions and simpler alternatives when they affect the route.
 
 2. Search memory before asking.
    - Search local memory files if present: `docs/ai/memory/*.md` and `.agentic-dev-system/memory/*.md`.
@@ -118,6 +120,7 @@ Scope: ...
 Risk level: Tiny | Small | Feature | Risky
 Evidence checked: ...
 Memory applied: ...
+Assumptions/tradeoffs: ...
 Isolation: worktree | branch | current workspace, reason ...
 Baseline: command/result or not run because ...
 Recommended workflow: ...

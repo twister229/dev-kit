@@ -14,6 +14,7 @@ Usage:
 What it syncs:
   - obra/superpowers: skills/, commands/, agents/, hooks/, plugin metadata, install docs
   - codeaholicguy/ai-devkit: skills/, commands/, .agent/workflows/, tool command/prompt folders, registry metadata
+  - forrestchang/andrej-karpathy-skills: CLAUDE.md, skill, examples, Cursor rule, plugin metadata
 
 This is a reference snapshot only. Files under references/upstream/ are not installed by scripts/install.sh or scripts/install.ps1.
 USAGE
@@ -140,8 +141,42 @@ sync_ai_devkit() {
   info "Synced ai-devkit -> $dest"
 }
 
+sync_andrej_karpathy_skills() {
+  local repo_url="https://github.com/forrestchang/andrej-karpathy-skills.git"
+  local repo_dir="$TMPDIR/andrej-karpathy-skills"
+  local dest="$DEST_ROOT/andrej-karpathy-skills"
+  local notes_backup="$TMPDIR/andrej-karpathy-skills-DEV-KIT-NOTES.md"
+
+  info "Cloning $repo_url"
+  git clone --depth 1 "$repo_url" "$repo_dir" >/dev/null 2>&1
+
+  if [ -f "$dest/DEV-KIT-NOTES.md" ]; then
+    cp "$dest/DEV-KIT-NOTES.md" "$notes_backup"
+  fi
+
+  rm -rf "$dest"
+  mkdir -p "$dest"
+
+  copy_if_exists "$repo_dir/skills/" "$dest/skills"
+  copy_if_exists "$repo_dir/.claude-plugin/" "$dest/.claude-plugin"
+  copy_if_exists "$repo_dir/.cursor/" "$dest/.cursor"
+  copy_if_exists "$repo_dir/CLAUDE.md" "$dest/CLAUDE.md"
+  copy_if_exists "$repo_dir/CURSOR.md" "$dest/CURSOR.md"
+  copy_if_exists "$repo_dir/EXAMPLES.md" "$dest/EXAMPLES.md"
+  copy_if_exists "$repo_dir/README.md" "$dest/README.md"
+  copy_if_exists "$repo_dir/README.zh.md" "$dest/README.zh.md"
+
+  if [ -f "$notes_backup" ]; then
+    cp "$notes_backup" "$dest/DEV-KIT-NOTES.md"
+  fi
+
+  write_metadata "$repo_dir" "$dest" "$repo_url"
+  info "Synced andrej-karpathy-skills -> $dest"
+}
+
 mkdir -p "$DEST_ROOT"
 sync_superpowers
 sync_ai_devkit
+sync_andrej_karpathy_skills
 
 info "Done. Reference snapshots are in $DEST_ROOT"

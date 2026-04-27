@@ -36,6 +36,7 @@ Turn an idea into implementable requirements without coding. Shape the smallest 
 - Do not ask questions already answered by repo docs, memory, or code.
 - Ask at most one clarifying question at a time, and prefer multiple choice when it reduces user effort.
 - Prefer the smallest coherent product slice over a broad speculative system.
+- Do not silently choose when multiple interpretations are plausible. Present the options and recommend one.
 - If the request spans multiple independent subsystems, decompose it before shaping the first slice.
 - Present the recommended shape and get user approval before handing off to `plan-work`.
 - Write a design doc only for feature-sized or risky work, or when the user asks for one.
@@ -62,6 +63,7 @@ Turn an idea into implementable requirements without coding. Shape the smallest 
    - Name the tradeoff for each.
    - Lead with the recommended option and explain why.
    - Reject approaches that are too broad or risky.
+   - If ambiguity is about meaning rather than implementation, compare 2-3 plausible interpretations before approaches.
 7. Pick the smallest valuable slice.
 8. Define acceptance signals.
    - Observable behavior.

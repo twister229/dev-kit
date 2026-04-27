@@ -38,6 +38,7 @@ Make code easier to understand and safer to change. Optimize for readability, no
 - Some duplication beats the wrong abstraction.
 - Preserve behavior unless the user explicitly asks to change it.
 - Use local repository context and existing project-local verification commands. Do not require network access or external tooling.
+- If a senior engineer would call the result overcomplicated, simplify it before proceeding.
 
 ## Workflow
 
@@ -71,6 +72,7 @@ Make code easier to understand and safer to change. Optimize for readability, no
    - Before/after shape.
    - Risk.
    - Test impact.
+   - Senior-engineer overcomplication check.
 
 6. Implement only approved scope.
 

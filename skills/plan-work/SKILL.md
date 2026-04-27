@@ -38,6 +38,7 @@ Create an implementation plan that an agent or developer can execute without hid
 - Do not touch implementation code during this skill.
 - Use repo-local evidence and existing project commands. Do not require package-manager installs, network access, or external CLIs unless already part of the project and explicitly approved.
 - If exact files, commands, or requirements cannot be determined from repo evidence, ask instead of producing a speculative plan.
+- Every task must state success criteria and the verification signal that proves them.
 
 ## Plan Location
 
@@ -60,6 +61,7 @@ If the project already uses `docs/superpowers/plans/`, follow that existing conv
 4. Write bite-sized tasks.
    - One task should be independently reviewable.
    - Each task should include failing test, implementation, verification, and commit guidance when applicable.
+   - Each task should transform the request into observable success criteria, not just implementation steps.
 5. Add acceptance checklist.
 6. Self-review the plan.
    - Requirement coverage.

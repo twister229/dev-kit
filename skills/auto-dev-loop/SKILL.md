@@ -32,12 +32,14 @@ Run the agentic development lifecycle without waiting for phase-by-phase prompts
 - Do not commit, push, deploy, or run destructive commands unless the user explicitly asked for that action.
 - Prefer the smallest correct change. Do not expand scope just because the loop is autonomous.
 - Stay offline and local by default. Do not use network access, credentials, package-manager installs, deploys, commits, or pushes without explicit user approval.
+- Autonomy does not permit silently choosing when there is meaningful ambiguity. Stop for a decision or make a safe, explicit, reversible assumption.
 
 ## Workflow
 
 1. Start with `start-work`.
    - Classify scope and risk.
    - Search memory and repo context before asking questions.
+   - Convert weak goals like "make it work" into verifiable outcomes before implementation cycles.
    - Establish baseline checks when feasible.
 2. Route to the lightest next workflow.
    - Vague direction: run `shape-work`, then continue.
@@ -73,6 +75,7 @@ Stop only when one of these is true:
 
 - `verify-work` proves the requested outcome and no blocking review findings remain.
 - A user decision is required for scope, product behavior, destructive actions, credentials, or external systems.
+- Meaningful ambiguity cannot be resolved with safe, explicit, reversible assumptions.
 - The same blocker remains after two focused fix attempts.
 - Baseline checks are failing for reasons unrelated to this work and the user needs to choose whether to investigate or proceed.
 

@@ -47,11 +47,12 @@ If production code was written before its test, delete it and start over from th
 - The failure must be meaningful: missing behavior, wrong return value, unmet condition.
 - If the test passes immediately, it is not testing new behavior.
 - If the test fails because of syntax or setup, fix setup and rerun until it fails for the intended reason.
+- Convert imperative requests into a behavior statement and failing signal before production code.
 
 ## Workflow
 
-1. Pick one unit of behavior.
-2. Write the smallest test that describes that behavior.
+1. Pick one unit of behavior and state it as an observable behavior statement.
+2. Write the smallest test or reproducible failing signal that describes that behavior.
 3. Run the test and confirm it fails for the right reason.
 4. Write the minimum production code to pass.
 5. Run the test and confirm it passes.

@@ -40,6 +40,7 @@ Find real implementation risks before handoff. Review is a gate for correctness,
 - Critical correctness, security, data-loss, or test-gap findings block completion.
 - Use file and line references for findings when possible.
 - Base reviews on local diffs, files, plans, and verification output. Do not require external services or network tools unless they are explicitly part of the review target.
+- Flag unrelated edits, hidden assumptions, speculative features, and unnecessary abstractions as review findings.
 
 ## Workflow
 
@@ -60,6 +61,7 @@ Find real implementation risks before handoff. Review is a gate for correctness,
    - Security and data safety.
    - Maintainability and consistency.
    - Test quality and meaningful failures.
+   - Unrelated edits, assumption leaks, speculative features, and avoidable abstraction.
 6. Report findings with severity and file/line references.
 7. If no findings, state that explicitly and name residual risks or verification gaps.
 
@@ -100,3 +102,4 @@ Recommendation: BLOCK | FIX_THEN_CONTINUE | PASS_WITH_RISKS | PASS
 | "The implementer said tests pass" | Agent reports are not evidence | Inspect diff and verification output |
 | "Spec is close enough" | Wrong behavior is still wrong | Block on spec gaps before quality polish |
 | "No tests because it is small" | Small risky changes still regress | Require meaningful evidence for the claim |
+| "While I was here" | Drive-by edits hide risk and break ownership | Limit changes to the review target |

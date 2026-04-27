@@ -40,6 +40,7 @@ Turn a plan into working code without context pollution. Each non-trivial task g
 - Verify actual diff and commands. Agent success reports are not evidence.
 - Use `tdd-work` for behavior changes unless the user explicitly approves an exception.
 - Do not use `npm`, `npx`, or network tools for this dev-kit workflow. Use project-local commands only.
+- Every changed line must trace to the current task, its verification, or cleanup caused by the task.
 
 ## Execution Modes
 
@@ -56,6 +57,7 @@ Parallel independent-domain dispatch is allowed only when tasks are independent 
    - Implementer uses `tdd-work` for behavior changes.
    - Implementer runs task-level checks.
    - Spec reviewer checks plan compliance.
+   - Diff reviewer checks that changed lines trace to the task, verification, or task-caused cleanup.
    - If spec review fails, return to implementer with exact gaps.
    - Code quality reviewer checks maintainability, simplicity, edge cases, and consistency.
    - If quality review fails, return to implementer with exact fixes.
