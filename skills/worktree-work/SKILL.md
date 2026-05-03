@@ -57,11 +57,18 @@ Keep non-trivial work isolated from the main workspace. Choose a safe branch or 
 5. Create or select the context.
    - Use non-interactive git commands only.
    - Do not modify unrelated dirty files.
-6. Verify context.
+6. Run project setup in the new context.
+   - Auto-detect from project files: `package.json` → `npm install`; `Cargo.toml` → `cargo build`; `requirements.txt` → `pip install -r requirements.txt`; `pyproject.toml` → `poetry install`; `go.mod` → `go mod download`.
+   - Skip if no matching project file is found.
+7. Verify clean baseline.
+   - Run the project's test command.
+   - If tests fail: report failures and ask whether to proceed or investigate before continuing.
+   - If tests pass: report ready.
+8. Verify context.
    - Branch name.
    - Worktree path.
    - `git status --short --branch` in the target context.
-7. Hand off to the next workflow.
+9. Hand off to the next workflow.
    - `start-work` for scoping.
    - `plan-work` for sequencing.
    - `execute-work` or `tdd-work` for implementation.

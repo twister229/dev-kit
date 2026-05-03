@@ -82,7 +82,21 @@ Finish like a professional. Verify, review, document what changed, capture durab
    - Risks.
    - Follow-ups.
    - If release communication is requested, use `release-notes`.
-7. If user requested commit or PR, perform only the requested action.
+7. Present branch disposition options if the user has not already specified one.
+
+   Present exactly these options:
+
+   ```
+   1. Merge into <base-branch> locally
+   2. Push and create a Pull Request
+   3. Keep branch as-is (handle later)
+   4. Discard this work
+   ```
+
+   - For option 4, require the user to type `discard` before proceeding. Show exactly what will be deleted: branch name, commits, worktree path if applicable.
+   - Clean up the worktree for options 1 and 4 only. Keep it for options 2 and 3.
+
+8. Perform only the requested action.
 
 ## Output Template
 

@@ -1,7 +1,7 @@
-# Source
+# Upstream Source
 
-Repository: https://github.com/forrestchang/andrej-karpathy-skills
+Repository: https://github.com/forrestchang/andrej-karpathy-skills.git
 Commit: 2c606141936f1eeef17fa3043a72095b4765b9c2
-Synced: 2026-04-27T02:28:52Z
+Synced at: 2026-05-03T08:05:03Z
 
-This is a local reference snapshot. It is not installed into target projects.
+This directory is a reference snapshot for future skill/workflow design. It is not part of the installable dev-kit skillset.

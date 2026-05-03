@@ -74,6 +74,10 @@ description: <when to use this skill>
 
 The description is the routing surface. Make it concrete.
 
+**Critical:** The description must describe triggering conditions only — never the skill's workflow or process. When a description summarizes the workflow, agents follow the description instead of reading the full skill body. A description saying "dispatches subagent per task with code review between tasks" caused agents to run one review, skipping the two-stage review process. Changing it to just triggering conditions fixed the behavior.
+
+Start descriptions with "Use when..." to focus on triggering conditions, not what the skill does.
+
 Also write negative triggers when confusion is likely. State when the skill must not run.
 
 Good:
@@ -86,6 +90,12 @@ Bad:
 
 ```yaml
 description: Helps with debugging.
+```
+
+Bad (summarizes workflow — agents will shortcut the full skill):
+
+```yaml
+description: Use when debugging — clarifies behavior, reproduces issue, runs root cause analysis, then proposes fix.
 ```
 
 ## Workflow Rules

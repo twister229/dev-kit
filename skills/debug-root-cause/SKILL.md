@@ -72,7 +72,8 @@ No fixes without root cause investigation first.
 
 6. Trace data flow.
    - Find where the bad value, state, or behavior first appears.
-   - For multi-component systems, instrument each boundary.
+   - For multi-component systems (e.g., CI → build → signing, API → service → database), add diagnostic instrumentation before proposing fixes: log what enters and exits each component boundary, verify config and env propagation at each layer, run once to collect evidence, then identify the failing component.
+   - Fix at the source, not at the symptom.
 
 7. Compare with working examples.
    - Find similar working code.
@@ -89,6 +90,8 @@ No fixes without root cause investigation first.
    - Write or identify failing signal.
    - Implement one root-cause fix.
    - Run `verify-work`.
+   - If the fix does not work: stop. Return to step 8 with new information.
+   - If three or more fix attempts have failed: stop and question the architecture. Ask whether the pattern is fundamentally sound or whether the system needs to be restructured rather than patched.
 
 11. Store reusable learning.
    - Store root cause and fix only after verification.
@@ -123,3 +126,7 @@ Remaining risks: ...
 | "I know the cause" | Confidence is not evidence | Reproduce and prove it |
 | "Quick fix first" | Symptom patches create new bugs | Trace root cause |
 | "Try a few things" | Multiple variables hide truth | Test one hypothesis |
+| "Emergency, no time for process" | Systematic is faster than guess-and-check thrashing | Follow the workflow |
+| "Multiple fixes at once saves time" | Cannot isolate what worked; causes new bugs | One change at a time |
+| "I'll write the test after the fix works" | Untested fixes do not stick | Write failing test first |
+| "One more attempt" (after 2+ failures) | Three or more failures signals an architectural problem | Stop and question the pattern |

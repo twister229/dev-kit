@@ -32,13 +32,14 @@ Create an implementation plan that an agent or developer can execute without hid
 
 ## Hard Rules
 
-- Do not write placeholders.
-- Do not write "add tests" without actual test cases or commands.
+- Do not write placeholders: no "TBD", "TODO", "add validation", "handle edge cases", "similar to Task N", or any step that describes what to do without showing how.
+- Do not write "add tests" without providing actual test code or an exact test command.
 - Do not plan broad independent systems in one plan. Split them.
 - Do not touch implementation code during this skill.
 - Use repo-local evidence and existing project commands. Do not require package-manager installs, network access, or external CLIs unless already part of the project and explicitly approved.
 - If exact files, commands, or requirements cannot be determined from repo evidence, ask instead of producing a speculative plan.
 - Every task must state success criteria and the verification signal that proves them.
+- If the spec covers multiple independent subsystems, suggest splitting into separate plans before writing tasks. Each plan should produce working, testable software on its own.
 
 ## Plan Location
 
@@ -49,25 +50,30 @@ If the project already uses `docs/superpowers/plans/`, follow that existing conv
 ## Workflow
 
 1. Re-read the start brief, `shape-work` brief if present, requirements, design, and relevant docs.
-2. Map files before tasks.
+2. Scope check.
+   - If the spec covers multiple independent subsystems, list them and recommend the first to plan. Do not write cross-subsystem tasks in a single plan.
+3. Map files before tasks.
    - Create.
    - Modify.
    - Test.
    - Documentation.
-3. Check design fit.
+   - Design units with clear boundaries. Each file should have one clear responsibility.
+4. Check design fit.
    - Does the design satisfy the requirement?
    - Are edge cases named?
    - Are rollback or migration concerns named?
-4. Write bite-sized tasks.
+5. Write bite-sized tasks.
    - One task should be independently reviewable.
    - Each task should include failing test, implementation, verification, and commit guidance when applicable.
    - Each task should transform the request into observable success criteria, not just implementation steps.
-5. Add acceptance checklist.
-6. Self-review the plan.
-   - Requirement coverage.
-   - Placeholder scan.
-   - Type/name consistency.
-   - Verification commands exist.
+   - Repeat necessary context per task — agents read tasks independently.
+6. Add acceptance checklist.
+7. Self-review the plan.
+   - Requirement coverage: can every requirement be traced to a task?
+   - Placeholder scan: no TBD, "add validation", "similar to Task N", or steps missing code.
+   - Type/name consistency: function names and signatures match across tasks.
+   - Verification commands exist and are executable.
+   - After writing, offer execution choice: subagent-per-task via `execute-work` or inline execution.
 
 ## Output Template
 

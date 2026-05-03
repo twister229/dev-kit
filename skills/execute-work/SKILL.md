@@ -85,14 +85,29 @@ Parallel independent-domain dispatch is allowed only when tasks are independent 
 - Keep agents on non-overlapping files unless sequenced.
 - Escalate only for product judgment, architecture decisions, destructive actions, security-sensitive changes, or unresolved agent failure after two corrective attempts.
 
+## Model Selection
+
+Use the least capable model that can handle the role to reduce cost and latency.
+
+- Mechanical implementation (isolated function, clear spec, 1-2 files): use a fast, cheap model.
+- Integration and judgment (multi-file coordination, pattern matching, debugging): use a standard model.
+- Architecture, design, and review: use the most capable available model.
+
+Task complexity signals:
+- Touches 1-2 files with a complete spec → cheap model.
+- Touches multiple files with integration concerns → standard model.
+- Requires design judgment or broad codebase understanding → most capable model.
+
 ## Status Values
 
 Implementers and reviewers must report one of:
 
-- `DONE`
-- `DONE_WITH_CONCERNS`
-- `NEEDS_CONTEXT`
-- `BLOCKED`
+- `DONE` — work is complete; proceed to spec compliance review.
+- `DONE_WITH_CONCERNS` — work is complete but the implementer flagged doubts. Read the concerns before proceeding. Address correctness or scope concerns before review; note observations (e.g., "file is getting large") and proceed.
+- `NEEDS_CONTEXT` — implementer needs information that was not provided. Provide it and re-dispatch.
+- `BLOCKED` — implementer cannot complete the task. Assess: if context problem, provide more and re-dispatch; if task requires more reasoning, re-dispatch with a more capable model; if task is too large, break it down; if the plan itself is wrong, escalate to the user.
+
+Never ignore a BLOCKED or NEEDS_CONTEXT status and never force the same model to retry without changing something.
 
 ## Output Template
 

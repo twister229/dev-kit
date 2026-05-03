@@ -37,7 +37,15 @@ Ask before skipping TDD for:
 
 No production code without a failing test first.
 
-If production code was written before its test, delete it and start over from the failing test. Keeping it as reference is still test-after.
+Violating the letter of these rules is violating the spirit of the rules.
+
+If production code was written before its test, delete it and start over from the failing test.
+
+No exceptions:
+- Do not keep it as "reference."
+- Do not "adapt" it while writing tests.
+- Do not look at it.
+- Delete means delete.
 
 ## Hard Rules
 
@@ -121,9 +129,17 @@ Remaining behavior: ...
 
 ## Red Flags
 
+All of the following mean: delete code, start over with TDD.
+
 | Rationalization | Why It Is Wrong | Do Instead |
 |---|---|---|
 | "This is too simple" | Simple behavior still needs a spec | Write the small test |
 | "I'll test right after" | The implementation biases the test | Test first |
 | "I need to see the design" | The test designs the interface | Write the wished-for API |
 | "Mocking is too hard" | The code is probably too coupled | Simplify the design |
+| "Tests after achieve the same purpose" | Tests-after answer "what does this do?" Tests-first answer "what should this do?" | Delete code, start with failing test |
+| "I already manually tested it" | Manual testing is ad-hoc, has no record, and cannot be re-run | Write the automated test |
+| "Deleting X hours of work is wasteful" | Sunk cost fallacy — keeping unverified code is technical debt | Delete and restart |
+| "Keep as reference, write test first" | You will adapt it. That is test-after. | Delete means delete |
+| "Need to explore first" | Fine. Throw away the exploration, then start with TDD. | Delete exploration code |
+| "Existing code has no tests" | You are touching it. Add coverage. | Write tests for the behavior you touch |
