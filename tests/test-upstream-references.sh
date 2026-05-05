@@ -28,4 +28,9 @@ assert_dir "$REF/ai-devkit/.agent/workflows"
 assert_file "$REF/ai-devkit/SOURCE.md"
 assert_file "$REF/ai-devkit/skills/dev-lifecycle/SKILL.md"
 
+assert_dir "$REF/andrej-karpathy-skills/skills"
+assert_file "$REF/andrej-karpathy-skills/SOURCE.md"
+assert_file "$REF/andrej-karpathy-skills/DEV-KIT-NOTES.md"
+assert_file "$REF/andrej-karpathy-skills/skills/karpathy-guidelines/SKILL.md"
+
 printf 'PASS: upstream references\n'

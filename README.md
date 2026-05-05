@@ -76,6 +76,7 @@ This reads your project's stack (Node.js, Python, Go, Rust, or detected from con
 - **CLAUDE.md / AGENTS.md / copilot-instructions.md** — replaces the generic routing block with project-specific routing rules, your actual test command, and your actual lint command
 - **`.claude/config/<skill>.yaml`** — per-skill defaults so skills know your exact commands without asking
 - **`.claude/routing.md`** — a human-readable routing map showing which skill handles which task in this project
+- **`docs/ai/knowledge/`** — initialized knowledge base (architecture, flows, conventions, module maps) that skills read before planning and debugging
 
 Once generated, commit these files. Teammates who clone and run `install.sh` inherit the full tailored setup automatically — no need to run `onboard-project` again.
 
@@ -296,8 +297,11 @@ Expected behavior: the agent inspects the worktree, reviews the diff if needed, 
 | `debug-root-cause` | Bug, regression, failing test, unexpected behavior | Superpowers systematic-debugging + AI DevKit debug/memory |
 | `verify-work` | About to claim something is done, fixed, passing, or ready | Superpowers verification-before-completion + AI DevKit verify |
 | `simplify-work` | Refactor, reduce complexity, clean up, improve maintainability | AI DevKit simplify-implementation + Superpowers YAGNI/TDD discipline |
+| `codebase-map` | Map a repo or subsystem before refactoring, planning, or handing to another agent | Knowledge-graph workflows adapted for Markdown-first offline use |
+| `project-knowledge` | Initialize or maintain `docs/ai/knowledge/` so all skills share verified architecture and convention context | Understand-Anything patterns, offline and Markdown-first |
 | `capture-learning` | Document code, store reusable knowledge, preserve decisions | AI DevKit memory/capture-knowledge + branch finish learnings |
 | `context-handoff` | Saving or restoring one-off working context for paused work or another agent | Safe local handoff discipline |
+| `onboard-project` | Tailors dev-kit to a project after install: detects stack, writes configs, generates knowledge base | Combines stack detection, skill routing, and knowledge initialization |
 | `finish-work` | Branch is ready for final review, commit, or PR | Superpowers finish branch + code review workflows |
 | `review-work` | Reviewing diffs or implementation against requirements before finishing | Superpowers requesting-code-review + AI DevKit code review |
 | `writing-skills` | Creating or improving skills | Superpowers writing-skills retained as a first-class skill |
@@ -325,7 +329,9 @@ Add this to an agent instruction file such as `AGENTS.md`:
 - Bug, failing test, regression, production issue -> `debug-root-cause`
 - Any done/fixed/passing/ready claim -> `verify-work`
 - Refactor, simplify, reduce complexity -> `simplify-work`
-- Understand, document, or remember code/project knowledge -> `capture-learning`
+- Understand or map an unfamiliar repo/subsystem before changing it -> `codebase-map`
+- Initialize, update, query, or maintain repo-local knowledge for future agents -> `project-knowledge`
+- Document or remember a specific verified reusable lesson -> `capture-learning`
 - Save or restore one-off working context -> `context-handoff`
 - Received code review feedback -> `review-feedback`
 - Review README, install docs, guides, or skill docs -> `docs-review`
@@ -334,12 +340,13 @@ Add this to an agent instruction file such as `AGENTS.md`:
 - Branch ready for final review, commit, or PR -> `finish-work`
 - Changelog, release notes, migration notes, or upgrade guidance -> `release-notes`
 - Create or revise skills -> `writing-skills`
+- Tailor dev-kit to this project after install -> `onboard-project`
 ```
 
 ## Golden Path
 
 ```text
-start-work -> shape-work when needed -> plan-work -> execute-work -> review-work -> verify-work -> capture-learning -> finish-work
+start-work -> codebase-map/project-knowledge when context is missing -> shape-work when needed -> plan-work -> execute-work -> review-work -> verify-work -> capture-learning/project-knowledge -> finish-work
 ```
 
 ## Fast Path
@@ -371,7 +378,8 @@ Project memory is plain Markdown under `docs/ai/memory/` or `.agentic-dev-system
 | `scripts/install.sh` | macOS/Linux installer |
 | `scripts/install.ps1` | Windows PowerShell installer |
 | `tests/` | Shell and PowerShell smoke tests for installer and skill structure |
-| `docs/ai/` | Planning notes and evaluation docs |
+| `docs/ai/evals/` | Skill routing eval prompts for testing skill behavior |
+| `docs/project-knowledge.md` | User guide for the `project-knowledge` skill |
 | `references/upstream/` | Local source-project snapshots, not installed into target projects |
 
 ## Upstream References
@@ -380,69 +388,14 @@ Reference snapshots from the source projects live under `references/upstream/`:
 
 - `references/upstream/superpowers/`
 - `references/upstream/ai-devkit/`
+- `references/upstream/andrej-karpathy-skills/`
 
-These folders are for future skill and workflow design. They are not installed into target projects.
+These folders are for skill and workflow design. They are not installed into target projects.
 
 Refresh them with:
 
 ```bash
 ./scripts/sync-upstream-references.sh
-```
-
-## Install
-
-Install the skills into another project:
-
-```bash
-./scripts/install.sh /path/to/project
-```
-
-On Windows PowerShell:
-
-```powershell
-./scripts/install.ps1 -TargetProject C:\path\to\project
-```
-
-By default this installs provider-native files:
-
-- Claude: `.claude/skills/` plus `CLAUDE.md`
-- OpenCode: `.opencode/skills/` plus `AGENTS.md`
-- GitHub Copilot: `.github/prompts/*.prompt.md` plus `.github/copilot-instructions.md`
-
-Registry files are copied next to each provider target:
-
-- Claude: `.claude/registry.json`
-- OpenCode: `.opencode/registry.json`
-- GitHub Copilot: `.github/dev-kit-registry.json`
-
-Install only selected instruction targets:
-
-```bash
-./scripts/install.sh /path/to/project --claude --opencode
-```
-
-```powershell
-./scripts/install.ps1 -TargetProject C:\path\to\project -Claude -OpenCode
-```
-
-Advanced: install selected skill folders to a custom project-relative skills directory instead of provider-native skill folders:
-
-```bash
-./scripts/install.sh /path/to/project --skills-dir .claude/skills
-```
-
-```powershell
-./scripts/install.ps1 -TargetProject C:\path\to\project -SkillsDir .claude/skills
-```
-
-Replace an existing installed skill copy:
-
-```bash
-./scripts/install.sh /path/to/project --force
-```
-
-```powershell
-./scripts/install.ps1 -TargetProject C:\path\to\project -Force
 ```
 
 ## Verify This Repository

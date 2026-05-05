@@ -211,3 +211,105 @@ Failure-mode eval:
 
 Output eval:
 - Output includes ratings, prioritized issues, and suggested fixes.
+
+## `codebase-map`
+
+Trigger prompt:
+
+```text
+Map the installer module before we refactor it to support selective skill installs.
+```
+
+Expected route: `codebase-map`
+
+Negative trigger prompt:
+
+```text
+The installer is failing on Windows paths. Find the root cause.
+```
+
+Expected route: `debug-root-cause` (not `codebase-map` — there is a clear reproduction path)
+
+Workflow eval:
+- The agent defines a scope and the question the map must answer before inspecting files.
+- The agent builds a node list and edge list with evidence paths (file:symbol).
+- The agent assesses impact boundaries and missing test coverage.
+- The agent produces a map artifact at `docs/ai/implementation/map-<scope>.md` when appropriate.
+- The agent routes to the next skill at the end (`plan-work`, `debug-root-cause`, `capture-learning`, or `orchestrate-agents`).
+
+Failure-mode eval:
+- The agent does not infer architecture from filenames alone — it verifies via entry points and imports.
+- The agent does not expose secrets found in config files.
+- The agent does not edit implementation files while mapping.
+
+Output eval:
+- Output includes scope, question answered, node list with evidence, edge list, key entry points, impact notes, and recommended next skill.
+
+## `project-knowledge`
+
+Trigger prompt:
+
+```text
+Initialize project knowledge so future agents can understand the architecture and module layout before starting work.
+```
+
+Expected route: `project-knowledge`
+
+Negative trigger prompt:
+
+```text
+Save current task state so another agent can continue this implementation later.
+```
+
+Expected route: `context-handoff` (not `project-knowledge` — this is one-off task state, not durable architecture knowledge)
+
+Workflow eval:
+- The agent creates `docs/ai/knowledge/` and `docs/ai/knowledge/modules/`.
+- The agent creates `index.md` with repo purpose, coverage table, and recommended read order.
+- The agent creates `architecture.md`, `conventions.md`, and any starter module docs backed by evidence.
+- Unknown areas are marked "Unknown / not mapped yet" rather than speculated.
+- The agent does not store secrets, raw logs, transcripts, or task-specific progress.
+
+Failure-mode eval:
+- The agent refuses to store speculation or one-off task progress.
+- The agent marks stale areas explicitly rather than presenting incomplete coverage as complete.
+
+Output eval:
+- Output includes action (Initialized/Updated/Queried/Promoted), location, evidence, freshness, supported next skills, remaining gaps, and verification.
+
+## `onboard-project`
+
+Trigger prompt:
+
+```text
+Tailor this dev-kit install to our project. Detect the stack and generate project-specific configs.
+```
+
+Expected route: `onboard-project`
+
+Negative trigger prompt:
+
+```text
+Build a new feature for the installer to support selected skills only.
+```
+
+Expected route: `start-work` (not `onboard-project` — this is a feature build, not onboarding)
+
+Workflow eval:
+- The agent reads `.claude/registry.json` first; exits with a clear message if absent.
+- The agent detects the stack from package.json, pyproject.toml, go.mod, or Cargo.toml.
+- The agent generates the managed block and replaces the `agentic-dev-system:begin/end` block in CLAUDE.md (and AGENTS.md, copilot-instructions.md if present).
+- The managed block contains routing rows for only installed skills and the updated golden path.
+- The agent writes `.claude/config/<skill>.yaml` for each installed skill with detected values.
+- The agent writes `.claude/routing.md` with a routing table.
+- If `codebase-map` and `project-knowledge` are installed, the agent invokes them as steps 8-9.
+- The agent prints a structured summary at the end.
+
+Failure-mode eval:
+- The agent does not invent skill names not in the registry.
+- The agent does not execute test or lint commands — only writes the command strings.
+- If a file write fails, the agent prints the error and continues rather than aborting.
+- If codebase-map or project-knowledge are not installed, those steps are skipped with a summary note.
+
+Output eval:
+- Output includes stack, test/lint commands, updated files, config count, routing map rows, and codebase-map/knowledge status.
