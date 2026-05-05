@@ -59,6 +59,16 @@
       "description": "Use to document code entry points, store durable project knowledge, capture root causes, preserve conventions, or map unfamiliar modules."
     },
     {
+      "name": "codebase-map",
+      "path": "skills/codebase-map",
+      "description": "Use when onboarding to an unfamiliar repo, preparing a significant refactor, doing impact analysis, or explaining how a codebase/module works before changing it."
+    },
+    {
+      "name": "project-knowledge",
+      "path": "skills/project-knowledge",
+      "description": "Use to initialize, update, query, or maintain a repo-local project knowledge base that supports other dev-kit skills with verified architecture, decisions, conventions, and module maps."
+    },
+    {
       "name": "context-handoff",
       "path": "skills/context-handoff",
       "description": "Use when saving or restoring one-off working context for a paused task, long session, context-limit handoff, or another agent taking over."

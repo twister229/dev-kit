@@ -52,6 +52,8 @@ Pick the smallest workflow that fits the risk:
 | Requirements are ready | `plan-work` | Produces executable tasks with files and commands |
 | Written plan exists | `execute-work` | Implements task-by-task with review gates |
 | Want everything handled end-to-end | `auto-dev-loop` | Runs the lifecycle until verified complete or blocked |
+| Unfamiliar repo or risky subsystem | `codebase-map` | Maps nodes, edges, entry points, and impact before planning or refactoring |
+| Need shared project knowledge | `project-knowledge` | Initializes or maintains repo-local architecture, flow, convention, and module knowledge |
 | Need isolated workspace | `worktree-work` | Creates or selects a safe branch/worktree context |
 | Need multiple agents | `orchestrate-agents` | Coordinates independent workstreams without file conflicts |
 | Bug, regression, or failing test | `debug-root-cause` | Proves root cause before any fix |
@@ -120,6 +122,18 @@ Use `worktree-work` before implementation when the work needs an isolated filesy
 worktree-work create an isolated worktree for the selected-skills installer feature
 ```
 
+Use `codebase-map` before planning/refactoring when the repo or subsystem is unfamiliar.
+
+```text
+codebase-map map the auth flow before we refactor session handling
+```
+
+Use `project-knowledge` when that map should become durable context other skills can reuse.
+
+```text
+project-knowledge initialize repo-local knowledge and promote the auth map into docs/ai/knowledge
+```
+
 Use `orchestrate-agents` when multiple independent streams can safely run without touching the same files.
 
 ```text
@@ -150,15 +164,21 @@ If review comments arrive later, use `review-feedback` instead of blindly applyi
 review-feedback evaluate these PR comments and implement only the accepted items
 ```
 
-### 7. Capture Reusable Lessons Sparingly
+### 7. Keep Project Knowledge Useful
 
-Use `capture-learning` only for knowledge future sessions will reuse: conventions, root causes, setup gotchas, or important module maps.
+Use `project-knowledge` for the shared repo knowledge base: architecture, flows, module maps, conventions, decisions, and verified failure patterns under `docs/ai/knowledge/`.
+
+```text
+project-knowledge update the module map for the installer after this refactor
+```
+
+Use `capture-learning` for a specific verified reusable lesson that should be stored in local memory or promoted into project knowledge.
 
 ```text
 capture-learning store the verified installer path-handling convention
 ```
 
-Do not store transcripts, raw logs, secrets, or one-off progress.
+Do not store transcripts, raw logs, secrets, speculation, or one-off progress.
 
 ### 8. Finish The Work Cleanly
 
