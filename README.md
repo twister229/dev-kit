@@ -60,6 +60,7 @@ Pick the smallest workflow that fits the risk:
 | Behavior change or bug fix | `tdd-work` | Requires red-green-refactor evidence |
 | Diff needs review | `review-work` | Finds correctness risks before handoff |
 | Dependency or lockfile work | `dependency-work` | Handles dependency changes with convention checks |
+| Local seed/test data needed | `seed-data-work` | Builds safe idempotent local fixtures from schema and domain evidence |
 | Docs need review | `docs-review` | Reviews README, install docs, guides, or skill docs |
 | Branch is ready to hand off | `finish-work` | Runs final review, verification, and summary |
 
@@ -337,6 +338,7 @@ Expected behavior: the agent inspects the worktree, reviews the diff if needed, 
 | `review-feedback` | Receiving PR comments, outside review, or user critique | Superpowers receiving-code-review |
 | `docs-review` | Reviewing README, install docs, guides, or skill docs | AI DevKit technical-writer |
 | `dependency-work` | Adding, removing, updating, auditing, or diagnosing dependencies and lockfiles | Dependency convention and verification workflow |
+| `seed-data-work` | Creating or verifying local dev/test seed data, fixtures, or sample backend rows | Safe idempotent data graph workflow for database-backed projects |
 | `release-notes` | Writing changelog entries, release notes, migration notes, or upgrade guidance | Evidence-based release communication |
 
 ## Routing
@@ -364,6 +366,7 @@ Add this to an agent instruction file such as `AGENTS.md`:
 - Received code review feedback -> `review-feedback`
 - Review README, install docs, guides, or skill docs -> `docs-review`
 - Add, remove, update, audit, or diagnose dependencies -> `dependency-work`
+- Create or verify local dev/test seed data, fixtures, or sample SQL rows -> `seed-data-work`
 - Code review, diff review, implementation check -> `review-work`
 - Branch ready for final review, commit, or PR -> `finish-work`
 - Changelog, release notes, migration notes, or upgrade guidance -> `release-notes`
