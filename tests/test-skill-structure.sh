@@ -27,7 +27,7 @@ for skill_dir in "$SKILLS_DIR"/*; do
   grep -q "\"path\": \"skills/$skill_name\"" "$REGISTRY" || fail "$skill_name path missing from registry"
 done
 
-for required in start-work shape-work plan-work execute-work auto-dev-loop worktree-work orchestrate-agents debug-root-cause verify-work simplify-work capture-learning finish-work review-work writing-skills tdd-work review-feedback docs-review; do
+for required in start-work shape-work plan-work execute-work auto-dev-loop worktree-work orchestrate-agents debug-root-cause verify-work simplify-work capture-learning codebase-map project-knowledge finish-work review-work writing-skills tdd-work review-feedback docs-review; do
   [ -f "$SKILLS_DIR/$required/SKILL.md" ] || fail "missing required skill: $required"
 done
 

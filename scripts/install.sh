@@ -137,14 +137,16 @@ When the user's request matches one of these workflows, use the matching skill b
 - Bug, failing test, regression, production issue -> \`debug-root-cause\`
 - Any done/fixed/passing/ready claim -> \`verify-work\`
 - Refactor, simplify, reduce complexity -> \`simplify-work\`
-- Understand, document, or remember code/project knowledge -> \`capture-learning\`
+- Understand or map an unfamiliar repo/subsystem before changing it -> \`codebase-map\`
+- Initialize, update, query, or maintain repo-local knowledge for future agents -> \`project-knowledge\`
+- Document or remember a specific verified reusable lesson -> \`capture-learning\`
 - Received code review feedback -> \`review-feedback\`
 - Review README, install docs, guides, or skill docs -> \`docs-review\`
 - Code review, diff review, implementation check -> \`review-work\`
 - Branch ready for final review, commit, or PR -> \`finish-work\`
 - Create or revise skills -> \`writing-skills\`
 
-Golden path: \`start-work -> shape-work when needed -> plan-work -> execute-work -> review-work -> verify-work -> capture-learning -> finish-work\`.
+Golden path: \`start-work -> codebase-map/project-knowledge when context is missing -> shape-work when needed -> plan-work -> execute-work -> review-work -> verify-work -> capture-learning/project-knowledge -> finish-work\`.
 
 Fast path: for tiny low-risk tasks, make the change, run \`verify-work\`, and report evidence. Do not create lifecycle docs for typo-level work.
 
