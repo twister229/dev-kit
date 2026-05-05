@@ -63,6 +63,34 @@ Pick the smallest workflow that fits the risk:
 | Docs need review | `docs-review` | Reviews README, install docs, guides, or skill docs |
 | Branch is ready to hand off | `finish-work` | Runs final review, verification, and summary |
 
+## Updating
+
+When the dev-kit source repo has new commits (new skills, skill improvements, bug fixes), update your project's installed copy:
+
+```bash
+# 1. Pull the latest dev-kit source
+cd /path/to/dev-kit
+git pull
+
+# 2. Reinstall into your project — --force replaces existing skill files
+./scripts/install.sh /path/to/project --force
+```
+
+On Windows PowerShell:
+
+```powershell
+git pull
+./scripts/install.ps1 -TargetProject C:\path\to\project -Force
+```
+
+`--force` only replaces the skill files and registry. It does not touch your custom content in CLAUDE.md, AGENTS.md, or copilot-instructions.md outside the managed markers, and it does not overwrite your per-skill configs (`.claude/config/`).
+
+After updating, re-run `onboard-project` in your AI agent so the routing map reflects any new or changed skills:
+
+```text
+onboard-project
+```
+
 ## Onboarding
 
 After installing, run `onboard-project` in your AI agent to tailor the setup to your project:

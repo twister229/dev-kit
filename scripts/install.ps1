@@ -270,4 +270,7 @@ if (-not $SkipOnboard) {
     Write-Info ""
     Write-Info "This generates a project-specific CLAUDE.md, per-skill configs, and a routing"
     Write-Info "map. Skip with -SkipOnboard if you prefer to configure manually."
+    Write-Info ""
+    Write-Info "To update later when dev-kit has new commits: re-run with -Force, then"
+    Write-Info "run 'onboard-project' again to pick up new skills in the routing map."
 }

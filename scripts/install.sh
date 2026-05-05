@@ -332,4 +332,7 @@ if [ "$SKIP_ONBOARD" -eq 0 ]; then
   info ""
   info "This generates a project-specific CLAUDE.md, per-skill configs, and a routing"
   info "map. Skip with --skip-onboard if you prefer to configure manually."
+  info ""
+  info "To update later when dev-kit has new commits: re-run with --force, then"
+  info "run 'onboard-project' again to pick up new skills in the routing map."
 fi
