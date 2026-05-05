@@ -146,11 +146,15 @@ When the user's request matches one of these workflows, use the matching skill b
 - Understand or map an unfamiliar repo/subsystem before changing it -> \`codebase-map\`
 - Initialize, update, query, or maintain repo-local knowledge for future agents -> \`project-knowledge\`
 - Document or remember a specific verified reusable lesson -> \`capture-learning\`
+- Save or restore one-off working context -> \`context-handoff\`
 - Received code review feedback -> \`review-feedback\`
 - Review README, install docs, guides, or skill docs -> \`docs-review\`
+- Add, remove, update, audit, or diagnose dependencies -> \`dependency-work\`
 - Code review, diff review, implementation check -> \`review-work\`
 - Branch ready for final review, commit, or PR -> \`finish-work\`
+- Changelog, release notes, migration notes, or upgrade guidance -> \`release-notes\`
 - Create or revise skills -> \`writing-skills\`
+- Tailor dev-kit to this project after install -> \`onboard-project\`
 
 Golden path: \`start-work -> codebase-map/project-knowledge when context is missing -> shape-work when needed -> plan-work -> execute-work -> review-work -> verify-work -> capture-learning/project-knowledge -> finish-work\`.
 
