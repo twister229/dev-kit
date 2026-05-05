@@ -63,6 +63,32 @@ Pick the smallest workflow that fits the risk:
 | Docs need review | `docs-review` | Reviews README, install docs, guides, or skill docs |
 | Branch is ready to hand off | `finish-work` | Runs final review, verification, and summary |
 
+## Onboarding
+
+After installing, run `onboard-project` in your AI agent to tailor the setup to your project:
+
+```text
+onboard-project
+```
+
+This reads your project's stack (Node.js, Python, Go, Rust, or detected from config files), installed skills, and existing conventions, then generates:
+
+- **CLAUDE.md / AGENTS.md / copilot-instructions.md** — replaces the generic routing block with project-specific routing rules, your actual test command, and your actual lint command
+- **`.claude/config/<skill>.yaml`** — per-skill defaults so skills know your exact commands without asking
+- **`.claude/routing.md`** — a human-readable routing map showing which skill handles which task in this project
+
+Once generated, commit these files. Teammates who clone and run `install.sh` inherit the full tailored setup automatically — no need to run `onboard-project` again.
+
+Re-run `onboard-project` after major refactors, stack changes, or when the routing map has gone stale.
+
+To preserve a specific config value across re-runs, add `# pin` to that line:
+
+```yaml
+# .claude/config/start-work.yaml
+test_command: npm run test:ci  # pin
+lint_command: eslint src/
+```
+
 ## Daily Workflow
 
 Use the dev-kit as the default operating rhythm for everyday coding. The goal is not to run every skill every time; the goal is to start with the right amount of structure, keep evidence fresh, and avoid silent scope drift.

@@ -63,6 +63,17 @@ Start work without guessing. Understand the user goal, classify risk and size, s
 - Do not rely on `npm`, `npx`, network fetches, or external CLIs for dev-kit behavior. This kit must remain offline-installable.
 - If the request has meaningful ambiguity, name assumptions, tradeoffs, and simpler alternatives before choosing the next workflow.
 
+## Project Config
+
+If `.claude/config/start-work.yaml` exists relative to the git root, read it at the start of this skill. Use its values as project-specific defaults:
+
+- `test_command` — the command to run tests (use this instead of guessing)
+- `lint_command` — the command to lint
+- `build_command` — optional build command
+- `branch_prefix` — preferred branch name prefix (e.g., `feat/`, `fix/`)
+
+Unknown keys are ignored. Missing keys fall back to detecting from the project. To preserve a value across `onboard-project` re-runs, add `# pin` to that line in the YAML file.
+
 ## Workflow
 
 1. Classify the request.
@@ -74,8 +85,9 @@ Start work without guessing. Understand the user goal, classify risk and size, s
 
 2. Search memory before asking.
    - Search local memory files if present: `docs/ai/memory/*.md` and `.agentic-dev-system/memory/*.md`.
+   - If `docs/ai/knowledge/index.md` exists, read it. Then load the narrow module docs linked for the current subsystem as additional context.
    - Search by feature name, subsystem, error text, framework, and task intent.
-   - Use memory only as context. Fresh repo evidence and user instructions win.
+   - Use memory and knowledge docs as context only. Fresh repo evidence and user instructions win.
 
 3. Inspect project context.
    - Read `AGENTS.md`, `README.md`, and relevant docs if present.

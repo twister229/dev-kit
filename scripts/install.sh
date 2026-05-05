@@ -15,6 +15,7 @@ Options:
   --copilot          Install GitHub Copilot prompts to .github/prompts and instructions
   --skills-dir DIR   Advanced: install all selected skill folders to one custom project-relative directory
   --force            Replace existing installed skill files
+  --skip-onboard     Skip the onboard-project post-install prompt
   -h, --help         Show help
 
 Examples:
@@ -50,6 +51,7 @@ INSTALL_COPILOT=0
 EXPLICIT_TARGETS=0
 SKILLS_DIR_REL=""
 FORCE=0
+SKIP_ONBOARD=0
 
 while [ "$#" -gt 0 ]; do
   case "$1" in
@@ -82,6 +84,10 @@ while [ "$#" -gt 0 ]; do
       ;;
     --force)
       FORCE=1
+      shift
+      ;;
+    --skip-onboard)
+      SKIP_ONBOARD=1
       shift
       ;;
     -h|--help)
@@ -312,3 +318,14 @@ if [ "$INSTALL_COPILOT" -eq 1 ]; then
 fi
 
 info "Done. Installed Agentic Dev System at project level."
+
+if [ "$SKIP_ONBOARD" -eq 0 ]; then
+  info ""
+  info "Next step: run the 'onboard-project' skill in your AI agent to tailor this"
+  info "setup to your project's stack, test commands, and conventions."
+  info ""
+  info "  onboard-project"
+  info ""
+  info "This generates a project-specific CLAUDE.md, per-skill configs, and a routing"
+  info "map. Skip with --skip-onboard if you prefer to configure manually."
+fi

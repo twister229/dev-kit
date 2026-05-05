@@ -112,6 +112,11 @@
       "name": "release-notes",
       "path": "skills/release-notes",
       "description": "Use when writing changelog entries, release notes, migration notes, or upgrade guidance from completed changes."
+    },
+    {
+      "name": "onboard-project",
+      "path": "skills/onboard-project",
+      "description": "Run after install to tailor dev-kit to this project: detects stack, generates project-specific CLAUDE.md content, per-skill configs, and a routing map. Re-run after major refactors."
     }
   ]
 }

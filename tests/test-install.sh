@@ -88,4 +88,15 @@ if "$ROOT/scripts/install.sh" "$TMPDIR/bad-rel" --skills-dir ../bad >/dev/null 2
   fail "parent traversal --skills-dir should fail"
 fi
 
+PROMPT_TEST="$TMPDIR/prompt-test"
+mkdir -p "$PROMPT_TEST"
+output="$("$ROOT/scripts/install.sh" "$PROMPT_TEST" 2>&1)"
+echo "$output" | grep -q "onboard-project" || fail "default install should print onboard-project prompt"
+
+SKIP_TEST="$TMPDIR/skip-test"
+mkdir -p "$SKIP_TEST"
+output="$("$ROOT/scripts/install.sh" "$SKIP_TEST" --skip-onboard 2>&1)"
+echo "$output" | grep -q "onboard-project" && fail "--skip-onboard should suppress onboard-project prompt"
+true
+
 printf 'PASS: install.sh offline installer\n'
