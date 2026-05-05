@@ -126,7 +126,7 @@ Apply the managed block to each agent instruction file that exists or should exi
 
 **Targets:**
 - `CLAUDE.md` (always — create if absent)
-- `.opencode/AGENTS.md` (only if `.opencode/` directory exists)
+- `AGENTS.md` (project root — only if `AGENTS.md` already exists or `.opencode/skills/` directory exists)
 - `.github/copilot-instructions.md` (only if `.github/` directory exists)
 
 **For each target file:**
@@ -205,7 +205,7 @@ If present, invoke the `codebase-map` skill inline as a sub-step:
   - Create `docs/ai/implementation/` if it does not exist
   - If the file already exists, replace it with the fresh map
 
-If `codebase-map` produces no output or errors out: print a warning in the summary line (`Codebase map: warning — codebase-map ran but produced no output. architecture.md will be empty.`) and continue to step 9 without `architecture.md` content.
+If `codebase-map` produces no output or errors out: print a warning in the summary line (`Codebase map: warning — codebase-map ran but produced no output. docs/ai/knowledge/architecture.md will be skipped.`) and continue to step 9 without codebase-map content to feed into architecture.md.
 
 ### Step 9: Initialize project-knowledge
 
@@ -231,7 +231,7 @@ If `docs/ai/knowledge/` already exists (re-run behavior):
 ## Output
 
 - `CLAUDE.md`: managed block replaced with project-specific routing and commands
-- `.opencode/AGENTS.md`: same (if .opencode/ exists)
+- `AGENTS.md`: same (if OpenCode skills are installed)
 - `.github/copilot-instructions.md`: same (if .github/ exists)
 - `.claude/config/[skill].yaml`: per-skill defaults for each installed skill
 - `.claude/routing.md`: human-readable routing table

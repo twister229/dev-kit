@@ -6,6 +6,7 @@ param(
     [switch]$Copilot,
     [string]$SkillsDir = "",
     [switch]$Force,
+    [switch]$SkipOnboard,
     [switch]$Help
 )
 
@@ -26,6 +27,7 @@ Options:
   -Copilot          Install GitHub Copilot prompts to .github/prompts and instructions
   -SkillsDir DIR    Advanced: install all selected skill folders to one custom project-relative directory
   -Force            Replace existing installed skill files
+  -SkipOnboard      Skip the onboard-project post-install prompt
   -Help             Show help
 
 Examples:
@@ -114,14 +116,20 @@ When the user's request matches one of these workflows, use the matching skill b
 - Bug, failing test, regression, production issue -> ``debug-root-cause``
 - Any done/fixed/passing/ready claim -> ``verify-work``
 - Refactor, simplify, reduce complexity -> ``simplify-work``
-- Understand, document, or remember code/project knowledge -> ``capture-learning``
+- Understand or map an unfamiliar repo/subsystem before changing it -> ``codebase-map``
+- Initialize, update, query, or maintain repo-local knowledge for future agents -> ``project-knowledge``
+- Document or remember a specific verified reusable lesson -> ``capture-learning``
+- Save or restore one-off working context -> ``context-handoff``
 - Received code review feedback -> ``review-feedback``
 - Review README, install docs, guides, or skill docs -> ``docs-review``
+- Add, remove, update, audit, or diagnose dependencies -> ``dependency-work``
 - Code review, diff review, implementation check -> ``review-work``
 - Branch ready for final review, commit, or PR -> ``finish-work``
+- Changelog, release notes, migration notes, or upgrade guidance -> ``release-notes``
 - Create or revise skills -> ``writing-skills``
+- Tailor dev-kit to this project after install -> ``onboard-project``
 
-Golden path: ``start-work -> shape-work when needed -> plan-work -> execute-work -> review-work -> verify-work -> capture-learning -> finish-work``.
+Golden path: ``start-work -> codebase-map/project-knowledge when context is missing -> shape-work when needed -> plan-work -> execute-work -> review-work -> verify-work -> capture-learning/project-knowledge -> finish-work``.
 
 Fast path: for tiny low-risk tasks, make the change, run ``verify-work``, and report evidence. Do not create lifecycle docs for typo-level work.
 
@@ -252,3 +260,14 @@ if ($Copilot) {
 }
 
 Write-Info "Done. Installed Agentic Dev System at project level."
+
+if (-not $SkipOnboard) {
+    Write-Info ""
+    Write-Info "Next step: run the 'onboard-project' skill in your AI agent to tailor this"
+    Write-Info "setup to your project's stack, test commands, and conventions."
+    Write-Info ""
+    Write-Info "  onboard-project"
+    Write-Info ""
+    Write-Info "This generates a project-specific CLAUDE.md, per-skill configs, and a routing"
+    Write-Info "map. Skip with -SkipOnboard if you prefer to configure manually."
+}

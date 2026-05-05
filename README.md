@@ -133,7 +133,7 @@ Do not create lifecycle docs for typo-level work, simple docs edits, or changes 
 Use `execute-work` when a plan exists. Use `tdd-work` directly when you are implementing a small behavior change.
 
 ```text
-execute-work implement task 1 from docs/ai/planning/feature-selected-skills.md
+execute-work implement task 1 from the implementation plan
 tdd-work add regression coverage for paths with spaces in the installer
 ```
 
@@ -379,6 +379,7 @@ Project memory is plain Markdown under `docs/ai/memory/` or `.agentic-dev-system
 | `scripts/install.ps1` | Windows PowerShell installer |
 | `tests/` | Shell and PowerShell smoke tests for installer and skill structure |
 | `docs/ai/evals/` | Skill routing eval prompts for testing skill behavior |
+| `docs/skill-system-shape.md` | Skill taxonomy: categories, routing table, design decisions |
 | `docs/project-knowledge.md` | User guide for the `project-knowledge` skill |
 | `references/upstream/` | Local source-project snapshots, not installed into target projects |
 
