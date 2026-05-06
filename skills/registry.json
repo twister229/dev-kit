@@ -109,6 +109,11 @@
       "description": "Use when adding, removing, updating, auditing, or diagnosing project dependencies and lockfiles."
     },
     {
+      "name": "seed-data-work",
+      "path": "skills/seed-data-work",
+      "description": "Use when creating, updating, or verifying local development seed data, test fixtures, sample SQL inserts, or backend data setup for any database-backed project. Do not use for production data changes."
+    },
+    {
       "name": "release-notes",
       "path": "skills/release-notes",
       "description": "Use when writing changelog entries, release notes, migration notes, or upgrade guidance from completed changes."

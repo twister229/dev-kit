@@ -150,6 +150,7 @@ When the user's request matches one of these workflows, use the matching skill b
 - Received code review feedback -> \`review-feedback\`
 - Review README, install docs, guides, or skill docs -> \`docs-review\`
 - Add, remove, update, audit, or diagnose dependencies -> \`dependency-work\`
+- Create or verify local dev/test seed data, fixtures, or sample SQL rows -> \`seed-data-work\`
 - Code review, diff review, implementation check -> \`review-work\`
 - Branch ready for final review, commit, or PR -> \`finish-work\`
 - Changelog, release notes, migration notes, or upgrade guidance -> \`release-notes\`
