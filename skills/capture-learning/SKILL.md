@@ -53,8 +53,6 @@ Prefer project-local memory under `docs/ai/memory/`:
 - `docs/ai/memory/project-conventions.md`
 - `docs/ai/memory/setup-gotchas.md`
 
-If the project does not use `docs/ai/`, use `.agentic-dev-system/memory/`.
-
 ## Memory Quality Gate
 
 All must be true:

@@ -84,7 +84,7 @@ Unknown keys are ignored. Missing keys fall back to detecting from the project. 
    - Record assumptions and simpler alternatives when they affect the route.
 
 2. Search memory before asking.
-   - Search local memory files if present: `docs/ai/memory/*.md` and `.agentic-dev-system/memory/*.md`.
+   - Search local memory files if present: `docs/ai/memory/*.md`.
    - If `docs/ai/knowledge/index.md` exists, read it. Then load the narrow module docs linked for the current subsystem as additional context.
    - Search by feature name, subsystem, error text, framework, and task intent.
    - Use memory and knowledge docs as context only. Fresh repo evidence and user instructions win.

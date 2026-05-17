@@ -3,7 +3,7 @@ set -euo pipefail
 
 usage() {
   cat <<'USAGE'
-Install Agentic Dev System skills at project level.
+Install dev-kit skills at project level.
 
 Usage:
   ./scripts/install.sh [target-project] [options]
@@ -122,7 +122,7 @@ MARKER_BEGIN="<!-- agentic-dev-system:begin -->"
 MARKER_END="<!-- agentic-dev-system:end -->"
 
 ROUTING_BLOCK="${MARKER_BEGIN}
-## Agentic Dev System Skills
+## dev-kit Skills
 
 Provider-native files are installed for the selected tools:
 
@@ -321,7 +321,7 @@ if [ "$INSTALL_COPILOT" -eq 1 ]; then
   install_copilot
 fi
 
-info "Done. Installed Agentic Dev System at project level."
+info "Done. Installed dev-kit at project level."
 
 if [ "$SKIP_ONBOARD" -eq 0 ]; then
   info ""

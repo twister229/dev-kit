@@ -15,7 +15,7 @@ $ErrorActionPreference = "Stop"
 
 function Show-Usage {
     @"
-Install Agentic Dev System skills at project level.
+Install dev-kit skills at project level.
 
 Usage:
   ./scripts/install.ps1 [-TargetProject <path>] [options]
@@ -95,7 +95,7 @@ $MarkerEnd = "<!-- agentic-dev-system:end -->"
 
 $RoutingBlock = @"
 $MarkerBegin
-## Agentic Dev System Skills
+## dev-kit Skills
 
 Provider-native files are installed for the selected tools:
 
@@ -259,7 +259,7 @@ if ($Copilot) {
     Set-RoutingBlock (Join-Path $TargetProject ".github/copilot-instructions.md") "GitHub Copilot instructions"
 }
 
-Write-Info "Done. Installed Agentic Dev System at project level."
+Write-Info "Done. Installed dev-kit at project level."
 
 if (-not $SkipOnboard) {
     Write-Info ""

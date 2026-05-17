@@ -86,7 +86,7 @@ The managed block content is the project-specific routing section. It replaces t
 
 ```
 <!-- agentic-dev-system:begin -->
-## Agentic Dev System — [Project Name]
+## dev-kit — [Project Name]
 
 Stack: [detected language]
 Test: [test_command or "not detected"]
