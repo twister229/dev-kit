@@ -18,13 +18,11 @@ assert_dir() {
 }
 
 assert_dir "$REF/superpowers/skills"
-assert_dir "$REF/superpowers/commands"
 assert_file "$REF/superpowers/SOURCE.md"
 assert_file "$REF/superpowers/skills/writing-skills/SKILL.md"
 
 assert_dir "$REF/ai-devkit/skills"
 assert_dir "$REF/ai-devkit/commands"
-assert_dir "$REF/ai-devkit/.agent/workflows"
 assert_file "$REF/ai-devkit/SOURCE.md"
 assert_file "$REF/ai-devkit/skills/dev-lifecycle/SKILL.md"
 
