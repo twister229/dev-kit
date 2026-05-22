@@ -218,7 +218,12 @@ install_skills() {
       die "skill already exists: $dest. Re-run with --force to replace installed skills."
     fi
 
-    rm -rf "$dest"
+    case "$dest" in
+      "$dest_skills_dir"/*) ;;
+      *) die "refusing to remove path outside skills directory: $dest" ;;
+    esac
+
+    rm -rf -- "$dest"
     cp -R "$skill_dir" "$dest"
   done
 
@@ -244,7 +249,12 @@ install_custom_skills() {
       die "skill already exists: $dest. Re-run with --force to replace installed skills."
     fi
 
-    rm -rf "$dest"
+    case "$dest" in
+      "$DEST_SKILLS_DIR"/*) ;;
+      *) die "refusing to remove path outside skills directory: $dest" ;;
+    esac
+
+    rm -rf -- "$dest"
     cp -R "$skill_dir" "$dest"
   done
 

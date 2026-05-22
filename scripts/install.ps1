@@ -186,6 +186,12 @@ function Install-Skills($DestSkillsDir) {
             Fail "skill already exists: $Dest. Re-run with -Force to replace installed skills."
         }
 
+        $DestFull = [System.IO.Path]::GetFullPath($Dest)
+        $DestRootFull = [System.IO.Path]::GetFullPath($DestSkillsDir).TrimEnd([System.IO.Path]::DirectorySeparatorChar, [System.IO.Path]::AltDirectorySeparatorChar)
+        if (-not $DestFull.StartsWith($DestRootFull + [System.IO.Path]::DirectorySeparatorChar, [System.StringComparison]::OrdinalIgnoreCase)) {
+            Fail "refusing to remove path outside skills directory: $Dest"
+        }
+
         if (Test-Path -LiteralPath $Dest) {
             Remove-Item -LiteralPath $Dest -Recurse -Force
         }
