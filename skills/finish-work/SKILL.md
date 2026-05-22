@@ -40,7 +40,10 @@ Finish like a professional. Verify, review, document what changed, capture durab
 - Do not create a PR unless the user explicitly asked for a PR.
 - Do not claim readiness without `verify-work` evidence.
 - Do not ignore unrelated dirty worktree changes. Identify and avoid touching them.
+- Detect whether the workspace is a normal checkout, linked worktree, or submodule before presenting cleanup options.
+- Clean up worktrees only when dev-kit created or clearly owns the worktree path. Never remove host-managed workspaces.
 - If no implementation review evidence exists, use `review-work` before finishing.
+- If the diff touches auth, secrets, external input, prompts, tool execution, installers, or release packaging, use `security-review` before finishing.
 - If unresolved review feedback exists, use `review-feedback` before finishing.
 - Use repository-local verification commands from project docs or config. Do not require network access, external services, commits, pushes, or PR creation unless the user explicitly requested that finish action.
 
@@ -51,6 +54,8 @@ Finish like a professional. Verify, review, document what changed, capture durab
    - Staged changes.
    - Unstaged changes.
    - Untracked files.
+   - `git rev-parse --git-dir` and `git rev-parse --git-common-dir` to detect linked worktrees.
+   - `git rev-parse --show-superproject-working-tree` to avoid mistaking submodules for worktrees.
 2. Review diff with `review-work` if no current review evidence exists.
    - User-visible behavior.
    - Requirements coverage.
@@ -84,6 +89,11 @@ Finish like a professional. Verify, review, document what changed, capture durab
    - If release communication is requested, use `release-notes`.
 7. Present branch disposition options if the user has not already specified one.
 
+   Choose the option set from workspace state:
+
+   - Normal checkout or named branch worktree: show all four options.
+   - Detached HEAD or host-managed workspace: omit local merge/delete cleanup options that cannot be performed safely.
+
    Present exactly these options:
 
    ```
@@ -94,7 +104,7 @@ Finish like a professional. Verify, review, document what changed, capture durab
    ```
 
    - For option 4, require the user to type `discard` before proceeding. Show exactly what will be deleted: branch name, commits, worktree path if applicable.
-   - Clean up the worktree for options 1 and 4 only. Keep it for options 2 and 3.
+   - Clean up the worktree for options 1 and 4 only when the path is under a known dev-kit worktree directory such as `.worktrees/`, `worktrees/`, or another explicitly approved parent. Keep it for options 2 and 3.
 
 8. Perform only the requested action.
 
@@ -128,3 +138,5 @@ Next action: ...
 | "Tests passed before" | Fresh evidence is required | Run current checks |
 | "Just commit everything" | May include user or secret files | Inspect diff and stage intentionally |
 | "PR summary can be vague" | Reviewers need context | Name behavior and evidence |
+| "This worktree is safe to delete" | The host or another agent may own it | Delete only explicitly approved, owned worktrees |
+| "Normal review is enough" | Security-sensitive diffs need a threat lens | Run `security-review` for auth/data/prompt/release surfaces |

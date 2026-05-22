@@ -84,6 +84,11 @@
       "description": "Use for code review, diff review, implementation review, or checking work against a plan before finishing. Do not use for root-cause debugging or vague product shaping."
     },
     {
+      "name": "security-review",
+      "path": "skills/security-review",
+      "description": "Use when reviewing code, diffs, skills, prompts, or release candidates for security risks including secrets, injection, auth, data exposure, insecure config, and prompt injection."
+    },
+    {
       "name": "writing-skills",
       "path": "skills/writing-skills",
       "description": "Use when creating, editing, reviewing, or improving skills."

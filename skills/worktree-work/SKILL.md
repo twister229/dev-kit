@@ -29,6 +29,8 @@ Keep non-trivial work isolated from the main workspace. Choose a safe branch or 
 - Never run destructive git cleanup without explicit user approval.
 - Do not switch branches or create a worktree until the target branch/path is clear.
 - Verify the current branch and worktree list before changing context.
+- Detect whether the current checkout is already a linked worktree before creating another one.
+- If `git rev-parse --show-superproject-working-tree` returns a path, treat the repo as a submodule, not a worktree.
 - If using a project-local worktree directory, verify it is ignored before creating files there.
 - Do not overwrite an existing worktree path.
 - After setup, report the exact path and branch that future commands should use.
@@ -43,11 +45,15 @@ Keep non-trivial work isolated from the main workspace. Choose a safe branch or 
    - Resume existing isolated context.
 2. Inspect current context.
    - Current branch with `git status --short --branch`.
+   - Git directory and common directory with `git rev-parse --git-dir` and `git rev-parse --git-common-dir`.
+   - Submodule status with `git rev-parse --show-superproject-working-tree`.
    - Existing worktrees with `git worktree list`.
    - Worktree parent directory convention.
    - Dirty worktree status.
 3. Choose target.
+   - If `git-dir` and `git-common-dir` differ and this is not a submodule, you are already in an isolated worktree. Use it instead of nesting another worktree.
    - Prefer existing matching worktree when present.
+   - Prefer native host/worktree tools when available; fall back to `git worktree` only when no native tool exists.
    - Otherwise prefer `.worktrees/<branch-name>` if `.worktrees/` is ignored.
    - Fall back to a normal branch only when worktrees are unnecessary or unavailable.
 4. Safety check before creation.
@@ -99,6 +105,8 @@ Next workflow: `start-work` | `plan-work` | `execute-work` | `tdd-work`
 | Rationalization | Why It Is Wrong | Do Instead |
 |---|---|---|
 | "I can just switch branches" | Dirty worktrees and other agents may be active | Inspect status and worktrees first |
+| "I should create a worktree now" | You may already be inside one or inside a submodule | Compare git-dir/common-dir and check superproject first |
+| "Git worktree is always best" | Some harnesses own workspace creation and cleanup | Prefer native workspace tools when available |
 | "The path probably does not exist" | Overwriting work loses work | Verify destination before creation |
 | "Cleanup is obvious" | Deleting worktrees or branches can destroy work | Ask before destructive cleanup |
 | "Isolation means implementation" | Context setup and code changes are separate | Hand off after verifying context |
