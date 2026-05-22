@@ -2,7 +2,7 @@
 
 The default agentic dev kit: lifecycle skills, offline-first installer, multi-tool support (Claude, OpenCode, GitHub Copilot), per-project tailoring via `onboard-project`, and a durable repo-local knowledge layer.
 
-23 skills that make an AI coding agent behave like a careful developer: scope the work, plan only when useful, execute with clean context, verify with fresh evidence, and store lessons that save time later. One offline install script for any of the three supported coding agents. The skills are sharpened from `obra/superpowers`, `codeaholicguy/ai-devkit`, and `forrestchang/andrej-karpathy-skills`; the lifecycle integration, installer, knowledge layer, and per-project tailoring are dev-kit's own.
+25 skills that make an AI coding agent behave like a careful developer: scope the work, plan only when useful, execute with clean context, verify with fresh evidence, review security-sensitive changes, and store lessons that save time later. One offline install script for any of the three supported coding agents. The skills are sharpened from `obra/superpowers`, `codeaholicguy/ai-devkit`, and `forrestchang/andrej-karpathy-skills`; the lifecycle integration, installer, knowledge layer, and per-project tailoring are dev-kit's own.
 
 ## How To Use
 
@@ -62,6 +62,7 @@ Pick the smallest workflow that fits the risk:
 | Dependency or lockfile work | `dependency-work` | Handles dependency changes with convention checks |
 | Local seed/test data needed | `seed-data-work` | Builds safe idempotent local fixtures from schema and domain evidence |
 | Docs need review | `docs-review` | Reviews README, install docs, guides, or skill docs |
+| Security-sensitive diff or release | `security-review` | Reviews installers, prompts, configs, packaging, and data/security risks before shipping |
 | Branch is ready to hand off | `finish-work` | Runs final review, verification, and summary |
 
 ## Updating
@@ -333,6 +334,7 @@ Expected behavior: the agent inspects the worktree, reviews the diff if needed, 
 | `onboard-project` | Tailors dev-kit to a project after install: detects stack, writes configs, generates knowledge base | Combines stack detection, skill routing, and knowledge initialization |
 | `finish-work` | Branch is ready for final review, commit, or PR | Superpowers finish branch + code review workflows |
 | `review-work` | Reviewing diffs or implementation against requirements before finishing | Superpowers requesting-code-review + AI DevKit code review |
+| `security-review` | Reviewing code, diffs, skills, prompts, installers, configs, or release candidates for security risks | AI DevKit security-review + dev-kit findings-first review discipline |
 | `writing-skills` | Creating or improving skills | Superpowers writing-skills retained as a first-class skill |
 | `tdd-work` | New behavior, bug fixes, or behavior refactors | Superpowers TDD + AI DevKit TDD |
 | `review-feedback` | Receiving PR comments, outside review, or user critique | Superpowers receiving-code-review |
@@ -367,6 +369,7 @@ Add this to an agent instruction file such as `AGENTS.md`:
 - Review README, install docs, guides, or skill docs -> `docs-review`
 - Add, remove, update, audit, or diagnose dependencies -> `dependency-work`
 - Create or verify local dev/test seed data, fixtures, or sample SQL rows -> `seed-data-work`
+- Security-sensitive code, prompts, installers, configs, or release candidates -> `security-review`
 - Code review, diff review, implementation check -> `review-work`
 - Branch ready for final review, commit, or PR -> `finish-work`
 - Changelog, release notes, migration notes, or upgrade guidance -> `release-notes`
@@ -398,7 +401,19 @@ For tiny low-risk tasks, do not create lifecycle docs. Make the change, run `ver
 
 Installers do not use `npm`, `npx`, `curl`, package managers, or network access. They copy files from this repository into the target project and update local instruction files.
 
-Project memory is plain Markdown under `docs/ai/memory/`. No database or external CLI is required.
+Project knowledge is plain Markdown under `docs/ai/knowledge/`. No database or external CLI is required.
+
+## Claude Plugin Manifest
+
+This repo includes `.claude-plugin/plugin.json` generated from `skills/registry.json`.
+
+For local plugin testing before marketplace publication:
+
+```bash
+claude code plugin add ./dev-kit
+```
+
+Marketplace publishing is not automatic. See `docs/marketplace-publish.md` for the current checklist.
 
 ## Project Layout
 
@@ -451,3 +466,5 @@ On Windows PowerShell, run the installer smoke test:
 ```
 
 GitHub Actions runs the shell suite on Ubuntu and the PowerShell installer smoke test on Windows.
+
+Before tagging a release, wait for the latest `main` CI run to pass on both Ubuntu and Windows.
