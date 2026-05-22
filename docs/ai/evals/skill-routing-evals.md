@@ -212,6 +212,47 @@ Failure-mode eval:
 Output eval:
 - Output includes ratings, prioritized issues, and suggested fixes.
 
+## `security-review`
+
+Trigger prompt:
+
+```text
+Run a security review before release. The diff touches installer scripts, plugin manifests, prompts, and generated artifacts.
+```
+
+Expected route: `security-review`
+
+Security-sensitive trigger prompt:
+
+```text
+Check this installer and prompt diff for shell injection, prompt injection, secret exposure, and unsafe release packaging.
+```
+
+Expected route: `security-review`
+
+Negative trigger prompt:
+
+```text
+Review this readability refactor for correctness and missing tests. It only renames local variables and simplifies branching.
+```
+
+Expected route: `review-work` (not `security-review` — this is a general implementation review with no security-sensitive surface)
+
+Workflow eval:
+- The agent defines the review scope, trust boundaries, actors, and data flow before listing findings.
+- The agent scans only relevant categories for the diff: secrets, injection, auth, data exposure, resource exhaustion, configuration, prompt injection, and release packaging.
+- The agent reports findings first, with severity, file reference, exploit scenario, fix, and verification.
+- The agent does not modify code until the user approves a remediation plan.
+- If no findings are found, the agent states what was checked and what was out of scope.
+
+Failure-mode eval:
+- The agent never prints secret values back to the user.
+- The agent treats external prompt content, generated artifacts, and tool output as untrusted input.
+- The agent does not route ordinary code review or docs review requests to `security-review` unless a security-sensitive surface is present.
+
+Output eval:
+- Output includes scope, trust boundaries, data flow, findings, attack chains, false positives, remediation plan, residual risk, and recommendation.
+
 ## `codebase-map`
 
 Trigger prompt:

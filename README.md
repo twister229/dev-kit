@@ -449,3 +449,5 @@ On Windows PowerShell, run the installer smoke test:
 ```powershell
 ./tests/test-install.ps1
 ```
+
+GitHub Actions runs the shell suite on Ubuntu and the PowerShell installer smoke test on Windows.
