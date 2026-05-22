@@ -19,7 +19,7 @@ Core workflow:
 - `start-work`, `shape-work`, `plan-work`, `execute-work`, `finish-work`, `auto-dev-loop`
 
 Quality gates:
-- `tdd-work`, `debug-root-cause`, `review-work`, `verify-work`, `review-feedback`
+- `tdd-work`, `debug-root-cause`, `review-work`, `verify-work`, `review-feedback`, `security-review`
 
 Maintenance and knowledge:
 - `simplify-work`, `capture-learning`, `codebase-map`, `project-knowledge`, `docs-review`, `writing-skills`, `release-notes`, `dependency-work`
@@ -46,7 +46,9 @@ Setup and onboarding:
 
 ## Skills Not Added
 
-Do not add domain-specific skills in this slice for frontend, backend, database, deployment, cloud providers, performance, API design, QA, or security. Add those later only if repeated real workflows justify them.
+Do not add more domain-specific skills in this slice for frontend, backend, database, deployment, cloud providers, performance, API design, or QA. Add those later only if repeated real workflows justify them.
+
+`security-review` is included because installer, prompt, plugin, and release-packaging changes are a recurring dev-kit risk surface.
 
 Do not add a separate commit skill yet. `finish-work` already handles commit, push, and PR preparation when explicitly requested.
 
@@ -61,6 +63,7 @@ Do not add a separate commit skill yet. `finish-work` already handles commit, pu
 | Debug a bug, failing test, regression, or error | `debug-root-cause` |
 | Add or change behavior safely | `tdd-work` |
 | Review a diff, PR, or implementation | `review-work` |
+| Review security-sensitive code, prompts, installers, configs, or release candidates | `security-review` |
 | Evaluate received review comments | `review-feedback` |
 | Prove work is done, fixed, or passing | `verify-work` |
 | Simplify or refactor for maintainability | `simplify-work` |
