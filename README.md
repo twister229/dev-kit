@@ -1,8 +1,8 @@
-# Agentic Dev System Skills
+# dev-kit
 
-Combined skillset based on `obra/superpowers` and `codeaholicguy/ai-devkit`.
+The default agentic dev kit: lifecycle skills, offline-first installer, multi-tool support (Claude, OpenCode, GitHub Copilot), per-project tailoring via `onboard-project`, and a durable repo-local knowledge layer.
 
-The point is not to collect every possible workflow. The point is to make an agent behave like a careful developer: scope the work, plan only when useful, execute with clean context, verify with fresh evidence, and store lessons that will save time later.
+23 skills that make an AI coding agent behave like a careful developer: scope the work, plan only when useful, execute with clean context, verify with fresh evidence, and store lessons that save time later. One offline install script for any of the three supported coding agents. The skills are sharpened from `obra/superpowers`, `codeaholicguy/ai-devkit`, and `forrestchang/andrej-karpathy-skills`; the lifecycle integration, installer, knowledge layer, and per-project tailoring are dev-kit's own.
 
 ## How To Use
 
@@ -320,7 +320,7 @@ Expected behavior: the agent inspects the worktree, reviews the diff if needed, 
 | `shape-work` | Vague product or technical request needs shaping before planning | Superpowers brainstorming + AI DevKit requirement/design review |
 | `plan-work` | Requirements exist and implementation needs sequencing | Superpowers writing-plans + AI DevKit requirements/design review |
 | `execute-work` | A written plan is ready to implement | Superpowers subagent-driven-development + AI DevKit agent orchestration |
-| `auto-dev-loop` | User wants the full lifecycle to run autonomously until verified complete or blocked | Agentic Dev System golden path loop |
+| `auto-dev-loop` | User wants the full lifecycle to run autonomously until verified complete or blocked | dev-kit golden path loop |
 | `worktree-work` | Creating, selecting, or verifying isolated git worktrees and branches | Superpowers using-git-worktrees |
 | `orchestrate-agents` | Coordinating multiple agents or parallel workstreams | Superpowers dispatching-parallel-agents + AI DevKit agent orchestration |
 | `debug-root-cause` | Bug, regression, failing test, unexpected behavior | Superpowers systematic-debugging + AI DevKit debug/memory |
@@ -398,7 +398,7 @@ For tiny low-risk tasks, do not create lifecycle docs. Make the change, run `ver
 
 Installers do not use `npm`, `npx`, `curl`, package managers, or network access. They copy files from this repository into the target project and update local instruction files.
 
-Project memory is plain Markdown under `docs/ai/memory/` or `.agentic-dev-system/memory/`. No database or external CLI is required.
+Project memory is plain Markdown under `docs/ai/memory/`. No database or external CLI is required.
 
 ## Project Layout
 
@@ -436,6 +436,10 @@ Run the local checks before changing installer or skill structure behavior:
 
 ```bash
 ./tests/test-skill-structure.sh
+./tests/test-lib-registry.sh
+./tests/test-plugin-manifest.sh
+./tests/test-sync-derived-files.sh
+./tests/test-name-consistency.sh
 ./tests/test-install.sh
 ./tests/test-upstream-references.sh
 ```

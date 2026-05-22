@@ -20,8 +20,25 @@ for skill_dir in "$SKILLS_DIR"/*; do
   [ -f "$skill_file" ] || fail "$skill_name missing SKILL.md"
   first_line="$(sed -n '1p' "$skill_file")"
   [ "$first_line" = "---" ] || fail "$skill_name missing frontmatter start"
-  grep -q '^name: ' "$skill_file" || fail "$skill_name missing name frontmatter"
-  grep -q '^description: ' "$skill_file" || fail "$skill_name missing description frontmatter"
+
+  # Spec compliance — Agent Skills spec (anthropic template + superpowers/ai-devkit/karpathy consensus).
+  # Required frontmatter: name, description.
+  # name: kebab-case, ^[a-z][a-z0-9-]*$
+  # description: non-empty, <= 1024 chars (warn-only above; assert non-empty here).
+  # Folder name must match frontmatter name.
+  fm_name="$(sed -n '/^name: /{s/^name: //; p; q;}' "$skill_file")"
+  fm_desc="$(sed -n '/^description: /{s/^description: //; p; q;}' "$skill_file")"
+
+  [ -n "$fm_name" ] || fail "$skill_name missing name frontmatter"
+  [ -n "$fm_desc" ] || fail "$skill_name missing description frontmatter"
+
+  [[ "$fm_name" =~ ^[a-z][a-z0-9-]*$ ]] || fail "$skill_name frontmatter name '$fm_name' does not match ^[a-z][a-z0-9-]*$"
+
+  [ "$fm_name" = "$skill_name" ] || fail "$skill_name frontmatter name '$fm_name' != folder name"
+
+  desc_len="${#fm_desc}"
+  [ "$desc_len" -le 1024 ] || fail "$skill_name description is $desc_len chars (max 1024)"
+
   grep -q '^# ' "$skill_file" || fail "$skill_name missing title"
   grep -q "\"name\": \"$skill_name\"" "$REGISTRY" || fail "$skill_name missing from registry"
   grep -q "\"path\": \"skills/$skill_name\"" "$REGISTRY" || fail "$skill_name path missing from registry"

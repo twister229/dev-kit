@@ -11,8 +11,18 @@ jobs:
       - uses: actions/checkout@v4
       - name: Check shell syntax
         run: bash -n scripts/install.sh
+      - name: Check jq availability
+        run: jq --version
       - name: Test skill structure
         run: bash tests/test-skill-structure.sh
+      - name: Test registry helpers
+        run: bash tests/test-lib-registry.sh
+      - name: Test plugin manifest
+        run: bash tests/test-plugin-manifest.sh
+      - name: Test derived file sync
+        run: bash tests/test-sync-derived-files.sh
+      - name: Test name consistency
+        run: bash tests/test-name-consistency.sh
       - name: Test offline Bash installer
         run: bash tests/test-install.sh
       - name: Test upstream references
