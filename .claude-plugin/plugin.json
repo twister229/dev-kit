@@ -39,6 +39,7 @@
     "./skills/review-feedback",
     "./skills/docs-review",
     "./skills/dependency-work",
+    "./skills/seed-data-work",
     "./skills/release-notes",
     "./skills/onboard-project"
   ]
