@@ -18,6 +18,10 @@ assert_file() {
   [ -f "$1" ] || fail "expected file: $1"
 }
 
+assert_not_dir() {
+  [ ! -d "$1" ] || fail "unexpected directory: $1"
+}
+
 assert_not_file() {
   [ ! -f "$1" ] || fail "unexpected file: $1"
 }
@@ -56,6 +60,10 @@ assert_file "$PROJECT/.github/dev-kit-registry.json"
 assert_marker_once "$PROJECT/CLAUDE.md"
 assert_marker_once "$PROJECT/AGENTS.md"
 assert_marker_once "$PROJECT/.github/copilot-instructions.md"
+assert_not_dir "$PROJECT/references/upstream"
+assert_not_dir "$PROJECT/.claude/references/upstream"
+assert_not_dir "$PROJECT/.opencode/references/upstream"
+assert_not_dir "$PROJECT/.github/references/upstream"
 
 "$ROOT/scripts/install.sh" "$PROJECT" --force
 assert_marker_once "$PROJECT/CLAUDE.md"

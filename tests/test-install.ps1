@@ -21,6 +21,12 @@ function Assert-NotFile($Path) {
     }
 }
 
+function Assert-NotDir($Path) {
+    if (Test-Path -LiteralPath $Path -PathType Container) {
+        Fail "unexpected directory: $Path"
+    }
+}
+
 function Assert-MarkerOnce($Path) {
     $Content = Get-Content -LiteralPath $Path -Raw
     $Matches = [regex]::Matches($Content, [regex]::Escape("<!-- agentic-dev-system:begin -->"))
@@ -51,6 +57,10 @@ try {
     Assert-MarkerOnce (Join-Path $Project "CLAUDE.md")
     Assert-MarkerOnce (Join-Path $Project "AGENTS.md")
     Assert-MarkerOnce (Join-Path $Project ".github/copilot-instructions.md")
+    Assert-NotDir (Join-Path $Project "references/upstream")
+    Assert-NotDir (Join-Path $Project ".claude/references/upstream")
+    Assert-NotDir (Join-Path $Project ".opencode/references/upstream")
+    Assert-NotDir (Join-Path $Project ".github/references/upstream")
 
     & (Join-Path $Root "scripts/install.ps1") -TargetProject $Project -Force
     Assert-MarkerOnce (Join-Path $Project "CLAUDE.md")
