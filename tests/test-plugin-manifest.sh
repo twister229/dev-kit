@@ -48,11 +48,10 @@ trap 'rm -rf "$TMP"' EXIT
 
 # Generator should fail on malformed registry
 echo 'not json' > "$TMP/registry.json"
-if REGISTRY_OVERRIDE="$TMP/registry.json" \
-   bash -c '
-     ROOT="$1"; shift
-     . "$ROOT/scripts/lib-registry.sh"
-     validate_registry "$1"
+if bash -c '
+      ROOT="$1"; shift
+      . "$ROOT/scripts/lib-registry.sh"
+      validate_registry "$1"
    ' _ "$ROOT" "$TMP/registry.json" 2>/dev/null; then
   fail "validate_registry should reject non-JSON registry"
 fi

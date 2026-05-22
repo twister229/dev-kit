@@ -1,7 +1,5 @@
 # AI DevKit
 
-> 🌐 **English** | [中文](./README-zh.md)
-
 **The toolkit for AI-assisted software development.**
 
 AI DevKit helps AI coding agents work more effectively with your codebase. It provides structured workflows, persistent memory, and reusable skills — so agents follow the same engineering standards as senior developers.
@@ -26,7 +24,7 @@ This launches an interactive setup wizard that configures your project for AI-as
 | [GitHub Copilot](https://code.visualstudio.com/) | ✅ Supported | ❌ Not Ready |
 | [Gemini CLI](https://github.com/google-gemini/gemini-cli) | ✅ Supported | ✅ Ready |
 | [Cursor](https://cursor.sh/) | ✅ Supported | ❌ Not Ready |
-| [opencode](https://opencode.ai/) | ✅ Supported | 🚧 Testing |
+| [opencode](https://opencode.ai/) | ✅ Supported | ❌ Not Ready |
 | [Antigravity](https://antigravity.google/) | ✅ Supported | ❌ Not Ready |
 | [Codex CLI](https://github.com/openai/codex) | ✅ Supported | ✅ Ready |
 | [Windsurf](https://windsurf.com/) | 🚧 Testing | ❌ Not Ready |

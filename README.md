@@ -433,6 +433,10 @@ Run the local checks before changing installer or skill structure behavior:
 
 ```bash
 ./tests/test-skill-structure.sh
+./tests/test-lib-registry.sh
+./tests/test-plugin-manifest.sh
+./tests/test-sync-derived-files.sh
+./tests/test-name-consistency.sh
 ./tests/test-install.sh
 ./tests/test-upstream-references.sh
 ```
