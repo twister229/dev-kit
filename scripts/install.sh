@@ -9,10 +9,11 @@ Usage:
   ./scripts/install.sh [target-project] [options]
 
 Options:
-  --all              Install Claude, OpenCode, and GitHub Copilot targets (default)
+  --all              Install Claude, OpenCode, GitHub Copilot, and Codex targets (default)
   --claude           Install Claude skills to .claude/skills and CLAUDE.md
   --opencode         Install OpenCode skills to .opencode/skills and AGENTS.md
   --copilot          Install GitHub Copilot prompts to .github/prompts and instructions
+  --codex            Install Codex skills to .agents/skills and AGENTS.md
   --skills-dir DIR   Advanced: install all selected skill folders to one custom project-relative directory
   --force            Replace existing installed skill files
   --skip-onboard     Skip the onboard-project post-install prompt
@@ -48,6 +49,7 @@ TARGET_PROJECT="."
 INSTALL_CLAUDE=0
 INSTALL_OPENCODE=0
 INSTALL_COPILOT=0
+INSTALL_CODEX=0
 EXPLICIT_TARGETS=0
 SKILLS_DIR_REL=""
 FORCE=0
@@ -59,6 +61,7 @@ while [ "$#" -gt 0 ]; do
       INSTALL_CLAUDE=1
       INSTALL_OPENCODE=1
       INSTALL_COPILOT=1
+      INSTALL_CODEX=1
       EXPLICIT_TARGETS=1
       shift
       ;;
@@ -74,6 +77,11 @@ while [ "$#" -gt 0 ]; do
       ;;
     --copilot)
       INSTALL_COPILOT=1
+      EXPLICIT_TARGETS=1
+      shift
+      ;;
+    --codex)
+      INSTALL_CODEX=1
       EXPLICIT_TARGETS=1
       shift
       ;;
@@ -108,6 +116,7 @@ if [ "$EXPLICIT_TARGETS" -eq 0 ]; then
   INSTALL_CLAUDE=1
   INSTALL_OPENCODE=1
   INSTALL_COPILOT=1
+  INSTALL_CODEX=1
 fi
 
 TARGET_PROJECT="$(cd "$TARGET_PROJECT" && pwd)"
@@ -129,6 +138,7 @@ Provider-native files are installed for the selected tools:
 - Claude: \`.claude/skills\`
 - OpenCode: \`.opencode/skills\`
 - GitHub Copilot: \`.github/prompts\`
+- Codex: \`.agents/skills\`
 
 When the user's request matches one of these workflows, use the matching skill before answering directly:
 
@@ -316,6 +326,13 @@ install_copilot() {
   append_or_replace_block "$TARGET_PROJECT/.github/copilot-instructions.md" "GitHub Copilot instructions"
 }
 
+install_codex() {
+  if [ -z "$SKILLS_DIR_REL" ]; then
+    install_skills "$TARGET_PROJECT/.agents/skills"
+  fi
+  append_or_replace_block "$TARGET_PROJECT/AGENTS.md" "Codex instructions"
+}
+
 if [ -n "$SKILLS_DIR_REL" ]; then
   install_custom_skills
 fi
@@ -330,6 +347,10 @@ fi
 
 if [ "$INSTALL_COPILOT" -eq 1 ]; then
   install_copilot
+fi
+
+if [ "$INSTALL_CODEX" -eq 1 ]; then
+  install_codex
 fi
 
 info "Done. Installed dev-kit at project level."

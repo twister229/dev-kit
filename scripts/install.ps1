@@ -4,6 +4,7 @@ param(
     [switch]$Claude,
     [switch]$OpenCode,
     [switch]$Copilot,
+    [switch]$Codex,
     [string]$SkillsDir = "",
     [switch]$Force,
     [switch]$SkipOnboard,
@@ -21,10 +22,11 @@ Usage:
   ./scripts/install.ps1 [-TargetProject <path>] [options]
 
 Options:
-  -All              Install Claude, OpenCode, and GitHub Copilot targets (default)
+  -All              Install Claude, OpenCode, GitHub Copilot, and Codex targets (default)
   -Claude           Install Claude skills to .claude/skills and CLAUDE.md
   -OpenCode         Install OpenCode skills to .opencode/skills and AGENTS.md
   -Copilot          Install GitHub Copilot prompts to .github/prompts and instructions
+  -Codex            Install Codex skills to .agents/skills and AGENTS.md
   -SkillsDir DIR    Advanced: install all selected skill folders to one custom project-relative directory
   -Force            Replace existing installed skill files
   -SkipOnboard      Skip the onboard-project post-install prompt
@@ -63,16 +65,18 @@ if (-not (Test-Path -LiteralPath $SourceSkillsDir -PathType Container)) {
     Fail "skills directory not found: $SourceSkillsDir"
 }
 
-$ExplicitTargets = $Claude -or $OpenCode -or $Copilot -or $All
+$ExplicitTargets = $Claude -or $OpenCode -or $Copilot -or $Codex -or $All
 if (-not $ExplicitTargets) {
     $Claude = $true
     $OpenCode = $true
     $Copilot = $true
+    $Codex = $true
 }
 elseif ($All) {
     $Claude = $true
     $OpenCode = $true
     $Copilot = $true
+    $Codex = $true
 }
 
 if ($SkillsDir -and [System.IO.Path]::IsPathRooted($SkillsDir)) {
@@ -102,6 +106,7 @@ Provider-native files are installed for the selected tools:
 - Claude: ``.claude/skills``
 - OpenCode: ``.opencode/skills``
 - GitHub Copilot: ``.github/prompts``
+- Codex: ``.agents/skills``
 
 When the user's request matches one of these workflows, use the matching skill before answering directly:
 
@@ -241,6 +246,14 @@ function Install-CopilotPrompts {
     Write-Info "Installed Copilot prompts: $PromptsDir"
 }
 
+function Install-Codex {
+    $AgentsSkillsDir = Join-Path $TargetProject ".agents/skills"
+    if (-not (Test-Path -LiteralPath $AgentsSkillsDir -PathType Container)) {
+        New-Item -ItemType Directory -Path $AgentsSkillsDir -Force | Out-Null
+    }
+    Install-Skills $AgentsSkillsDir
+}
+
 if ($SkillsDir) {
     Install-CustomSkills
 }
@@ -264,6 +277,13 @@ if ($Copilot) {
         Install-CopilotPrompts
     }
     Set-RoutingBlock (Join-Path $TargetProject ".github/copilot-instructions.md") "GitHub Copilot instructions"
+}
+
+if ($Codex) {
+    if (-not $SkillsDir) {
+        Install-Codex
+    }
+    Set-RoutingBlock (Join-Path $TargetProject "AGENTS.md") "Codex instructions"
 }
 
 Write-Info "Done. Installed dev-kit at project level."

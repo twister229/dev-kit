@@ -51,6 +51,9 @@ try {
     Assert-File (Join-Path $Project ".opencode/skills/review-feedback/SKILL.md")
     Assert-File (Join-Path $Project ".opencode/skills/docs-review/SKILL.md")
     Assert-File (Join-Path $Project ".opencode/registry.json")
+    Assert-File (Join-Path $Project ".agents/skills/start-work/SKILL.md")
+    Assert-File (Join-Path $Project ".agents/skills/onboard-project/SKILL.md")
+    Assert-File (Join-Path $Project ".agents/registry.json")
     Assert-File (Join-Path $Project ".github/prompts/start-work.prompt.md")
     Assert-File (Join-Path $Project ".github/prompts/docs-review.prompt.md")
     Assert-File (Join-Path $Project ".github/dev-kit-registry.json")
@@ -77,6 +80,19 @@ try {
     Assert-File (Join-Path $Selective ".claude/registry.json")
     Assert-NotFile (Join-Path $Selective ".opencode/registry.json")
     Assert-NotFile (Join-Path $Selective ".github/dev-kit-registry.json")
+    Assert-NotDir (Join-Path $Selective ".agents")
+
+    $CodexOnly = Join-Path $Tmp "codex-only"
+    New-Item -ItemType Directory -Path $CodexOnly | Out-Null
+    & (Join-Path $Root "scripts/install.ps1") -TargetProject $CodexOnly -Codex
+    Assert-File (Join-Path $CodexOnly "AGENTS.md")
+    Assert-File (Join-Path $CodexOnly ".agents/skills/start-work/SKILL.md")
+    Assert-File (Join-Path $CodexOnly ".agents/skills/onboard-project/SKILL.md")
+    Assert-File (Join-Path $CodexOnly ".agents/registry.json")
+    Assert-NotFile (Join-Path $CodexOnly "CLAUDE.md")
+    Assert-NotFile (Join-Path $CodexOnly ".github/copilot-instructions.md")
+    Assert-NotDir (Join-Path $CodexOnly ".claude")
+    Assert-NotDir (Join-Path $CodexOnly ".opencode")
 
     $Custom = Join-Path $Tmp "custom"
     New-Item -ItemType Directory -Path $Custom | Out-Null

@@ -1,6 +1,6 @@
 # dev-kit
 
-The default agentic dev kit: lifecycle skills, offline-first installer, multi-tool support for Claude, OpenCode, and GitHub Copilot, project tailoring via `onboard-project`, and a durable repo-local knowledge layer.
+The default agentic dev kit: lifecycle skills, offline-first installer, multi-tool support for Claude, OpenCode, GitHub Copilot, and Codex, project tailoring via `onboard-project`, and a durable repo-local knowledge layer.
 
 25 skills make an AI coding agent behave like a careful developer: scope the work, plan only when useful, execute with clean context, verify with fresh evidence, review security-sensitive changes, and store lessons that save time later.
 

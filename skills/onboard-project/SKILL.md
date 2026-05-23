@@ -32,7 +32,7 @@ Make the installed dev-kit actually know your project. After `install.sh` puts g
 
 ### Step 1: Read the installed skills registry
 
-Look for `.claude/registry.json` in the project root. If absent, look for `.opencode/registry.json`. If neither exists, print:
+Look for `.claude/registry.json` in the project root. If absent, look for `.opencode/registry.json`. If neither exists, look for `.agents/registry.json`. If none exists, print:
 
 ```
 No registry found. Run install.sh first, then re-run onboard-project.
@@ -126,7 +126,7 @@ Apply the managed block to each agent instruction file that exists or should exi
 
 **Targets:**
 - `CLAUDE.md` (always — create if absent)
-- `AGENTS.md` (project root — only if `AGENTS.md` already exists or `.opencode/skills/` directory exists)
+- `AGENTS.md` (project root — only if `AGENTS.md` already exists or `.opencode/skills/` directory exists or `.agents/skills/` directory exists)
 - `.github/copilot-instructions.md` (only if `.github/` directory exists)
 
 **For each target file:**
@@ -231,7 +231,7 @@ If any file write failed, add: `Warnings: [N] write error(s) — see above for d
 ## Output
 
 - `CLAUDE.md`: managed block replaced with project-specific routing and commands
-- `AGENTS.md`: same (if OpenCode skills are installed)
+- `AGENTS.md`: same (if OpenCode or Codex skills are installed)
 - `.github/copilot-instructions.md`: same (if .github/ exists)
 - `.claude/config/[skill].yaml`: per-skill defaults for each installed skill
 - `.claude/routing.md`: human-readable routing table
